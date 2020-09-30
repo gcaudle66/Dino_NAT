@@ -10,7 +10,8 @@ def mine_cwd_csv():
       "Scanning current directory for CSV files...\n" \
       "-------------------------------------------\n")
     cwd = os.getcwd()
-    with os.scandir(path=cwd) as it:
+    csv_path = cwd + f"{"csv/"}"
+    with os.scandir(path=csv_dir) as it:
         file_list = []
         for entry in it:
             if entry.name.endswith(".csv") and entry.is_file():
