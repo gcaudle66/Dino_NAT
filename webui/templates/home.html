@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h3>Dino NN : Home Page</h3>
+    {% for posts in posts %}
+    <p>{{ posts.device}}</p>
+    <p>{{ posts.location }}</p>
+{% endfor %}
+{% endblock content %}

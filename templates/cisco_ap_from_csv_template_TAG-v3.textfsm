@@ -1,0 +1,10 @@
+Value AP_NAME (.+?)
+Value MAC_ADDRESS (.+?)
+Value POLICY_TAG (.+?)
+Value SITE_TAG (.+?)
+Value RF_TAG (.+?)
+
+Start
+  ^AP\sName(,|\s)Ethernet\sMAC(,|\s)Policy\sTag(,|\s)Site\sTag(,|\s)RF\sTag(,|\s) -> Record
+  ^${AP_NAME}(,|\s)${MAC_ADDRESS}(,|\s)${POLICY_TAG}(,|\s)${SITE_TAG}(,|\s)${RF_TAG}(,|\s) -> Record
+  ^. -> Error
