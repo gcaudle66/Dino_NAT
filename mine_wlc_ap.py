@@ -53,7 +53,7 @@ def parseCSV(csv_choice):
         try:
             parsedCSV_results = results_template.ParseText(content)
         except textfsm.TextFSMError as err:
-            print(err.content)
+            print(err.error)
         else:
             return parsedCSV_results #newLower_list(parsedCSV_results)
 

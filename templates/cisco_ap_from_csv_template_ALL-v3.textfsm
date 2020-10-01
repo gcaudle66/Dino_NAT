@@ -7,6 +7,6 @@ Value REBOOT_FLAG (.+?)
 Value DEFAULT_FLAG (.+?)
 
 Start
-  ^AP\sName(,|\s)Ethernet\sMAC(,|\s)Policy\sTag(,|\s)Site\sTag(,|\s)RF\sTag(,|\s)Reboot(,|\s)Default(,|\s) -> Record
+  ^AP\s+Name(,|\s)Ethernet\s+MAC(,|\s)Policy\s+Tag(,|\s)Site\s+Tag(,|\s)RF\s+Tag(,|\s)Reboot(,|\s)Default\s+
   ^${AP_NAME}(,|\s)${MAC_ADDRESS}(,|\s)${POLICY_TAG}(,|\s)${SITE_TAG}(,|\s)${RF_TAG}(,|\s)${REBOOT_FLAG}(,|\s)${DEFAULT_FLAG}(,|\s) -> Record
-  ^. -> Error
+
