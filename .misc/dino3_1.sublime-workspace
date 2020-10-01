@@ -1,0 +1,216 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"p",
+				"p\tTag"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"packae",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 240.0,
+		"history":
+		[
+			"python -m pip",
+			"python",
+			"env",
+			"import test",
+			"import test.py",
+			"test.py",
+			"hello"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/gcaudle/python/devroot/Dino_NN"
+	],
+	"file_history":
+	[
+		"/home/gcaudle/python/devroot/Dino_NN/webui/dinonn.py",
+		"/home/gcaudle/python/devroot/Dino_NN/webui/templates/home.html",
+		"/home/gcaudle/python/devroot/Dino_NN/webui/templates/navigation.html",
+		"/home/gcaudle/python/devroot/Dino_NN/dev_misc/testdata/test-data.py",
+		"/home/gcaudle/python/devroot/Dino_NN/webui/templates/about.html",
+		"/home/gcaudle/python/devroot/Dino_NN/webui/static/main.css",
+		"/home/gcaudle/python/devroot/Dino_NN/webui/templates/layout.html",
+		"/home/gcaudle/python/devroot/Dino_NN/dev_misc/corey_req.txt",
+		"/home/gcaudle/python/devroot/Dino_NN/1flaskblog.py",
+		"/home/gcaudle/python/devroot/Dino_NN/dev_misc/corey_files/flaskblog.py",
+		"/home/gcaudle/python/devroot/Dino_NN/dev_misc/dino3_1.sublime-project",
+		"/home/gcaudle/python/devroot/dino_3_dev1/main.py",
+		"/home/gcaudle/python/devroot/dino_3_dev1/dino_main_classes.py",
+		"/home/gcaudle/.config/sublime-text-3/Packages/Anaconda/README.md",
+		"/home/gcaudle/python/devroot/dino_3_dev1/test.py",
+		"/home/gcaudle/python/devroot/dino_3_dev1/dev_misc/dino3_1.sublime-project"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"==1.4",
+			"==.",
+			"dino_3_dev1"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"                         ",
+			"Dino_NN"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 120.0
+	},
+	"output.exec":
+	{
+		"height": 61.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/Python 3/Python3.sublime-build",
+	"project": "dino3_1.sublime-project",
+	"replace":
+	{
+		"height": 70.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 236.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
