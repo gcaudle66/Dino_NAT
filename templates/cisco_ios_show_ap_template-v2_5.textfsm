@@ -1,7 +1,42 @@
 Value AP_NAME (.+)
 Value MAC_ADDRESS ([a-fA-F0-9:\.]{12,17})
+Value IP_ADD (.+)
+Value IP_NM (.+)
+Value IP_GW (.+)
+Value AP_LOC (.+)
+Value TAG_SITE (.+)
+Value TAG_RF (.+)
+Value PRO_JOIN (.+)
+Value PRO_FLEX (.+)
+Value PRO_CNTR (.+)
+Value SEC_CNTR (.+)
+Value OPER_STAT (.+)
+Value ADMIN_STAT (.+)
+Value SFTWR_VER (.+)
+Value IOS_VER (.+)
+Value SER_NUM (.+)
+Value AP_MDL (.+)
+Value AP_JOIN_TIME (.+)
+Value AP_UP_TIME (.+)
 
 Start
-  ^Cisco\s+AP\s+Name\s+:\s${AP_NAME}
-  ^MAC\sAddress\s+:\s${MAC_ADDRESS} -> Record 
-  
+^Cisco\s+AP\s+Name\s+:\s(.+)
+^MAC\sAddress\s+:\s([a-fA-F0-9:\.]{12,17})
+^IP\sAddress\sConfiguration\s+:\sDHCP|STATIC
+^IP\sAddress\s+:\s+(.+)|
+^IP\sNetmask\s+:\s(.+)
+^Gateway\sIP\sAddress\s+:\s(.+)
+^Cisco\sAP\sLocation\s+:\s(.+)
+^Site\sTag\sName\s+:\s(.+)
+^RF\sTag\sName\s+:\s(.+)|^Policy\sTag\sName\s+:\s(.+)
+^AP\sjoin\sProfile\s+:\s(.+)
+^Flex\sProfile\s+:\s(.+)
+^Primary\sCisco\sController\sIP\sAddress\s+:\s(.+)
+^Secondary\sCisco\sController\sIP\sAddress\s+:\s(.+)
+^Operation\sState\s+:\s(.+)
+^Administrative\sState\s+:\s(.+)
+^Software\sVersion\s+:\s(.+)
+^AP\sSerial\sNumber\s+:\s(.+)
+^AP\sModel\s+:\s(.+)
+^Join\sDate\sand\sTime\s+:\s(.+)
+^AP\sUp\sTime\s+:\s(.+) -> Record
