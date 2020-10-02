@@ -1,0 +1,9 @@
+Value AP_NAME (.+?)
+Value MAC_ADDRESS (.+?)
+Value PolicyTag (.+?)
+Value SiteTag (.+?)
+Value RfTag (.+)
+
+Start
+ ^AP Name,Ethernet MAC,Policy Tag,Site Tag,RF Tag,Reboot,Default -> Next
+  ^${AP_NAME},${MAC_ADDRESS},${PolicyTag},${SiteTag},${RfTag} -> Record
