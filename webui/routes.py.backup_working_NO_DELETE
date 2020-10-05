@@ -92,42 +92,24 @@ def account():
                            image_file=image_file, form=form)
 
 
-def save_csv(form_csvfile):
-    random_hex = secrets.token_hex(8)
-    f_filename = form_csvfile.filename
-    _, f_ext = os.path.splitext(form_csvfile.filename)
-    csv_fn = random_hex + f_ext
-    form_csvfile.save(os.path.join(app.config['UPLOAD_FOLDER'], f_filename))
-    return f_filename
-
-@app.route("/importcsv", methods=["GET", "POST"])
+@app.route("/import", methods=["GET", "POST"])
 @login_required
-def import_csv():
+def imports():
     form = ImportCSV()
-    if form.validate_on_submit():
-        if request.files:
-            import_file = request.files["csv"]
-            import_file.save(os.path.join(app.config['UPLOAD_FOLDER'], import_file.filename))
-            post = Post(title=import_file.filename, content=form.description.data, author=current_user)
-        db.session.add(post)
-        db.session.commit()
-        flash('Your file has been imported!', 'success')
-        return redirect(url_for('home'))
-    return render_template('import_csv.html', title='New Import',
-                           form=form, legend=form.csv.label)
+    if "file" not in request.files:
+        flash("No file Part", "danger")
+        return redirect(request.url)
+    file = request.files["file"]
+    if file.filename == "":
+        flash("No file selected!", "danger")
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+        return redirect(url_for("review", filename=filename))
+    else:
+        flash("Unauathorized! You must login first!", "danger")
+        return redirect(url_for("login"))
 
-#    if form.validate_on_submit():
-#        if form.csv.data:
-#            import_file = save_csv(form.csv.data)
-#        post = Post(title=form.csv.data, content=form.description.data, author=current_user)
-#        db.session.commit()
-#        flash('Your file has been imported!', 'success')
-#        return redirect(url_for('home'))
-#    elif request.method == 'GET':
-#        return redirect(url_for("home"))
-#    csv_file = url_for('static', filename='profile_pics/' + import_file)
-#    return render_template('import_csv.html', title='Import CSV',
-#                           csv_file=csv_file, form=form)
 
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
