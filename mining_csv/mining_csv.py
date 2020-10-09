@@ -57,6 +57,3 @@ def parseCSV(csv_choice):
         else:
             return parsedCSV_results #newLower_list(parsedCSV_results)
 
-if __name__ == "__main__":
-  parsedCSV_results = mine_cwd_csv()
-  print(parsedCSV_results)

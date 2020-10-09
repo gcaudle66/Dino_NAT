@@ -5,6 +5,7 @@ from flask import render_template, url_for, flash, redirect, request, abort
 from webui import app, db, bcrypt
 from webui.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ImportCSV
 from webui.models import User, Post
+import mining_csv
 from flask_login import login_user, current_user, logout_user, login_required
 
 
@@ -14,6 +15,13 @@ def home():
     posts = Post.query.all()
     return render_template('home.html', posts=posts)
 
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    if current_user.is_authenticated:
+        return render_template("dashboard1.html", title="User Dashboard", posts=posts)
+    else:
+        return redirect(url_for("home"))
 
 @app.route("/about")
 def about():
@@ -91,13 +99,20 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
+parsedCSVresults = []
+
+def mine_csv(csv_file):
+    parsedCSVresults = mining_csv.parseCSV(csv_file)
+    return parsedCSVresults
 
 def save_csv(form_csvfile):
     random_hex = secrets.token_hex(8)
     f_filename = form_csvfile.filename
     _, f_ext = os.path.splitext(form_csvfile.filename)
     csv_fn = random_hex + f_ext
-    form_csvfile.save(os.path.join(app.config['UPLOAD_FOLDER'], f_filename))
+    save_path = os.path.join(app.config['UPLOAD_FOLDER']) 
+    form_csvfile.save(save_path, f_filename)
+    full_file_path = save_path + f_filename
     return f_filename
 
 @app.route("/importcsv", methods=["GET", "POST"])
@@ -107,14 +122,21 @@ def import_csv():
     if form.validate_on_submit():
         if request.files:
             import_file = request.files["csv"]
-            import_file.save(os.path.join(app.config['UPLOAD_FOLDER'], import_file.filename))
-            post = Post(title=import_file.filename, content=form.description.data, author=current_user)
-        db.session.add(post)
+            save_path = os.path.join(app.config['UPLOAD_FOLDER'])
+            f_path = save_path + import_file.filename
+            import_file.save(save_path)
+            insert = Import(filename=import_file.filename, description=form.description.data, user_id=current_user, path=f_path)
+        db.session.add(insert)
         db.session.commit()
-        flash('Your file has been imported!', 'success')
+        flash(f'Your file has been imported! {f_path}', 'success')
         return redirect(url_for('home'))
     return render_template('import_csv.html', title='New Import',
                            form=form, legend=form.csv.label)
+
+@app.route("/review/csv")
+@login_required
+def review_csv():
+    return render_template("review.html", title="Review Imported CSV Results")
 
 #    if form.validate_on_submit():
 #        if form.csv.data:
