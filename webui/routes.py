@@ -4,7 +4,7 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from webui import app, db, bcrypt
 from webui.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ImportCSV
-from webui.models import User, Post
+from webui.models import User, Post, Import
 import mining_csv
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -12,14 +12,22 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/home")
 def home():
-    posts = Post.query.all()
-    return render_template('home.html', posts=posts)
+    if current_user.is_authenticated:
+        redirect(url_for("dashboard"))
+        posts = Post.query.all()
+    else:
+        #page = request.args.get('page', 1, type=int)
+        posts = Post.query.all()
+    return render_template('home.html', title="Home", posts=posts)
 
 @app.route("/dashboard")
 @login_required
 def dashboard():
     if current_user.is_authenticated:
-        return render_template("dashboard1.html", title="User Dashboard", posts=posts)
+        imports = Import.query.all()
+        page = request.args.get('page', 1, type=int)
+        posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+        return render_template("dashboard1.html", title="User Dashboard", imports=imports)
     else:
         return redirect(url_for("home"))
 
@@ -31,7 +39,7 @@ def about():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('dashboard'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -46,14 +54,14 @@ def register():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('dashboard'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            return redirect(next_page) if next_page else redirect(url_for('dashboard'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -105,51 +113,82 @@ def mine_csv(csv_file):
     parsedCSVresults = mining_csv.parseCSV(csv_file)
     return parsedCSVresults
 
-def save_csv(form_csvfile):
+def save_csv(import_csv):
     random_hex = secrets.token_hex(8)
-    f_filename = form_csvfile.filename
-    _, f_ext = os.path.splitext(form_csvfile.filename)
-    csv_fn = random_hex + f_ext
-    save_path = os.path.join(app.config['UPLOAD_FOLDER']) 
-    form_csvfile.save(save_path, f_filename)
-    full_file_path = save_path + f_filename
-    return f_filename
+    f_name, f_ext = os.path.splitext(import_csv.filename)
+    csv_fn = f_name + random_hex + f_ext
+    save = import_csv.save(os.path.join(app.config['UPLOAD_FOLDER'], csv_fn))
+    return csv_fn
+
 
 @app.route("/importcsv", methods=["GET", "POST"])
 @login_required
 def import_csv():
     form = ImportCSV()
+    import_csv = request.files.getlist('file')
+#    if import_csv.filename != "":
     if form.validate_on_submit():
-        if request.files:
-            import_file = request.files["csv"]
-            save_path = os.path.join(app.config['UPLOAD_FOLDER'])
-            f_path = save_path + import_file.filename
-            import_file.save(save_path)
-            insert = Import(filename=import_file.filename, description=form.description.data, user_id=current_user, path=f_path)
-        db.session.add(insert)
-        db.session.commit()
-        flash(f'Your file has been imported! {f_path}', 'success')
-        return redirect(url_for('home'))
+        if form.csv.data:
+            csv_fn = save_csv(form.csv.data)
+            insert = Import(filename=csv_fn, description=form.description.data, author=current_user)
+            db.session.add(insert)
+            db.session.commit()
+            flash(f'Your file {csv_fn} has been imported!', 'success')
+            csv_fn = current_user.imports
+            return redirect(url_for('dashboard'))
+    elif request.method == "GET":
+        redirect(url_for('dashboard'))
+        current_user.imports = current_user.imports
+        current_user.username = current_user.username
     return render_template('import_csv.html', title='New Import',
                            form=form, legend=form.csv.label)
 
-@app.route("/review/csv")
+@app.route("/imports/<int:import_id>")
 @login_required
-def review_csv():
-    return render_template("review.html", title="Review Imported CSV Results")
+def imports(import_id):
+    imported = Import.query.get_or_404(import_id)
+    post = imported
+    return render_template('imports.html', title='Imported File Mgmnt', imported=imported)
 
-#    if form.validate_on_submit():
-#        if form.csv.data:
-#            import_file = save_csv(form.csv.data)
-#        post = Post(title=form.csv.data, content=form.description.data, author=current_user)
-#        db.session.commit()
-#        flash('Your file has been imported!', 'success')
-#        return redirect(url_for('home'))
-#    elif request.method == 'GET':
-#        return redirect(url_for("home"))
-#    csv_file = url_for('static', filename='profile_pics/' + import_file)
-#    return render_template('import_csv.html', title='Import CSV',
-#                           csv_file=csv_file, form=form)
+#@app.route("/imports/<int:post_id>/delete", methods=['POST'])
+#@login_required
+#def delete_import(import_id):
+#    imported = Import.query.get_or_404(import_id)
+#    if imported.author != current_user:
+#        abort(403)
+#    db.session.delete(imported)
+#    db.session.commit()
+#    flash('Your import has been deleted!', 'success')
+#    return redirect(url_for('dashboard'))
+
+@app.route("/imports/<int:post_id>/delete", methods=['POST'])
+@login_required
+def delete_import(post_id):
+    post = Import.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your import has been deleted!', 'success')
+    return redirect(url_for('dashboard'))
+
+@app.route("/imports/<int:import_id>/update", methods=['GET', 'POST'])
+@login_required
+def update_imported(import_id):
+    imported = Import.query.get_or_404(import_id)
+    if imported.author != current_user:
+        abort(403)
+    form = ImportCSV()
+    if form.validate_on_submit():
+        imported.filename = form.csv.data
+        imported.description = form.description.data
+        db.session.commit()
+        flash('Your import has been updated!', 'success')
+        return redirect(url_for('dashboard', import_id=imported.id))
+    elif request.method == 'GET':
+        form.csv.data = imported.filename
+        form.description.data = imported.description
+    return render_template('import_csv.html', title='Update Import', form=form)
 
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
@@ -160,7 +199,7 @@ def new_post():
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('dashboard'))
     return render_template('create_post.html', title='New Post',
                            form=form, legend='New Post')
 

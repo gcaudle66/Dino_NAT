@@ -1,11 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
-<html>
-	<body>
-	<h3>Dino NN : Dashboard</h3>
-	<div class="container">
-		"Heelloo there!!!"
-	</div>
-	</body>
-</html>
+{% for import in imports %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + import.author.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ import.author.username }}</a>
+              <small class="text-muted">{{ import.date_posted.strftime('%Y-%m-%d'), import.id  }}</small>
+            </div>
+            <h2>
+		    <a class="article-title" href="{{ url_for('imports', import_id=import.id) }}">{{ import.filename }}</a></h2>
+            <p class="article-content">{{ import.filename }}</p>
+          </div>
+        </article>
+    {% endfor %}
 {% endblock content %}
+
