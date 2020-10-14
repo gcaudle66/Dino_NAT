@@ -13,7 +13,6 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/home")
 def home():
     if current_user.is_authenticated:
-        redirect(url_for("dashboard"))
         posts = Post.query.all()
     else:
         #page = request.args.get('page', 1, type=int)
@@ -38,9 +37,9 @@ def set_active_dataset_label(new_label):
 
 active_dataset_info = {
         "label": "No file selcted",
-        "imp_id": "null",
-        "imp_filename": "null",
-        "imp_author": "null"
+        "import_id": "null",
+        "import_filename": "null",
+        "import_author": "null"
         }
 
 active_dataset_file = "null"
@@ -48,9 +47,9 @@ active_dataset_file = "null"
 def set_active_dataset_file(import_id):
     active_dataset_file = Import.query.get_or_404(import_id)
     active_dataset_info["label"] = active_dataset_file.filename
-    active_dataset_info["imp_id"] = import_id
-    active_dataset_info["imp_filename"] = active_dataset_file.filename
-    active_dataset_info["imp_author"] = active_dataset_file.author
+    active_dataset_info["import_id"] = import_id
+    active_dataset_info["import_filename"] = active_dataset_file.filename
+    active_dataset_info["import_author"] = active_dataset_file.author
     return active_dataset_file
 
 
@@ -185,16 +184,6 @@ def imports(import_id):
     post = imported
     return render_template('imports.html', title='Imported File Mgmnt', imported=imported)
 
-#@app.route("/imports/<int:post_id>/delete", methods=['POST'])
-#@login_required
-#def delete_import(import_id):
-#    imported = Import.query.get_or_404(import_id)
-#    if imported.author != current_user:
-#        abort(403)
-#    db.session.delete(imported)
-#    db.session.commit()
-#    flash('Your import has been deleted!', 'success')
-#    return redirect(url_for('dashboard'))
 
 @app.route("/imports/<int:post_id>/delete", methods=['POST'])
 @login_required
