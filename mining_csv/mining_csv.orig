@@ -5,7 +5,7 @@ import textfsm
 import os
 import mining_csv
 cur_path = os.getcwd()
-csv_dir = "../csv/"
+csv_dir = "../webui/uploads"
 
 def mine_cwd_csv():
     print("-------------------------------------------\n" \

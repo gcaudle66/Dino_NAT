@@ -1,11 +1,11 @@
 import os
 import secrets
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request, abort
+from flask import render_template, url_for, flash, redirect, request, abort, send_from_directory
 from webui import app, db, bcrypt
 from webui.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ImportCSV
 from webui.models import User, Post, Import
-import mining_csv
+import mining_csv 
 from flask_login import login_user, current_user, logout_user, login_required
 
 
@@ -31,9 +31,44 @@ def dashboard():
     else:
         return redirect(url_for("home"))
 
+
+def set_active_dataset_label(new_label):
+    label = new_label
+    return label
+
+active_dataset_info = {
+        "label": "No file selcted",
+        "imp_id": "null",
+        "imp_filename": "null",
+        "imp_author": "null"
+        }
+
+active_dataset_file = "null"
+#@set_active_dataset_label(label)
+def set_active_dataset_file(import_id):
+    active_dataset_file = Import.query.get_or_404(import_id)
+    active_dataset_info["label"] = active_dataset_file.filename
+    active_dataset_info["imp_id"] = import_id
+    active_dataset_info["imp_filename"] = active_dataset_file.filename
+    active_dataset_info["imp_author"] = active_dataset_file.author
+    return active_dataset_file
+
+
+
+@app.route("/dashboard/active-dataset<int:import_id>", methods=["GET"])
+@login_required
+def active_dataset(import_id):
+    if current_user.is_authenticated:
+        active_dataset_file = set_active_dataset_file(import_id)
+        parsedCSV_results = mine_csv('uploads/as_orig_name58b423ab4ade260ac.csv')
+        return render_template('active.html', title='Active DataSet File', parsedCSV_results=parsedCSV_results, active=active_dataset_info)
+    else:
+        flash("You must be logged in to access this page", "danger")
+        return redirect(url_for("Home"))
+
 @app.route("/about")
 def about():
-    return render_template('about.html', title='About')
+    return render_template("about.html", title="About")
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -107,11 +142,11 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
-parsedCSVresults = []
+parsedCSV_results = []
 
 def mine_csv(csv_file):
-    parsedCSVresults = mining_csv.parseCSV(csv_file)
-    return parsedCSVresults
+    parsedCSV_results = mining_csv.parseCSV(csv_file)
+    return parsedCSV_results
 
 def save_csv(import_csv):
     random_hex = secrets.token_hex(8)

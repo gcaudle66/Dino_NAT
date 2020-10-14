@@ -11,37 +11,45 @@
 # hlsearch on (H) or off (h):
 ~H
 # Last Search Pattern:
-~Msle0/\<a\>
+~MSle0~/clear find
 
 # Last Substitute Search Pattern:
-~MSle0~&import
+~MSle0&import
 
 # Last Substitute String:
 $imported
 
 # Command Line History (newest to oldest):
-:q
-|2,0,1602618228,,"q"
-:w
-|2,0,1602618167,,"w"
 :x
-|2,0,1602615322,,"x"
+|2,0,1602644212,,"x"
+:q
+|2,0,1602643807,,"q"
+:w
+|2,0,1602643158,,"w"
+:q!
+|2,0,1602629148,,"q!"
+:%s
+|2,0,1602629034,,"%s"
+:s
+|2,0,1602629024,,"s"
+:#
+|2,0,1602629005,,"#"
 :%s/import/imported/g
 |2,0,1602600929,,"%s/import/imported/g"
 :%s/post/import/g
 |2,0,1602600473,,"%s/post/import/g"
 :%s/post/import
 |2,0,1602600444,,"%s/post/import"
-:s
-|2,0,1602600378,,"s"
-:q!
-|2,0,1602599135,,"q!"
 :1
 |2,0,1602584250,,"1"
 :2
 |2,0,1602579059,,"2"
 
 # Search String History (newest to oldest):
+?/clear find
+|2,1,1602629055,47,"clear find"
+? \<return\>
+|2,1,1602629013,,"\\<return\\>"
 ?/imports
 |2,1,1602616090,47,"imports"
 ? import
@@ -63,319 +71,361 @@ $imported
 
 # Registers:
 "1	LINE	0
-	            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_imported', imported_id=import.id) }}">Update</a>
-|3,0,1,1,1,0,1602601183,"            <a class=\"btn btn-secondary btn-sm mt-1 mb-1\" href=\"{{ url_for('update_imported', imported_id=import.id) }}\">Update</a>"
+	          </div>
+|3,0,1,1,1,0,1602633046,"          </div>"
 "2	LINE	0
-	    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + import.author.image_file) }}">
-|3,0,2,1,1,0,1602600709,"    <img class=\"rounded-circle article-img\" src=\"{{ url_for('static', filename='profile_pics/' + import.author.image_file) }}\">"
+	            <p class="article-content">{{ post.content }}</p>
+|3,0,2,1,1,0,1602633044,"            <p class=\"article-content\">{{ post.content }}</p>"
 "3	LINE	0
-	    return render_template("review.html", title="Review Imported CSV Results")
-|3,0,3,1,1,0,1602599562,"    return render_template(\"review.html\", title=\"Review Imported CSV Results\")"
+	            <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
+|3,0,3,1,1,0,1602632945,"            <h2><a class=\"article-title\" href=\"{{ url_for('post', post_id=post.id) }}\">{{ post.title }}</a></h2>"
 "4	LINE	0
-	#                           csv_file=csv_file, form=form)
-|3,0,4,1,1,0,1602599459,"#                           csv_file=csv_file, form=form)"
+	              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+|3,0,4,1,1,0,1602632940,"              <small class=\"text-muted\">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>"
 "5	LINE	0
-	#    return render_template('import_csv.html', title='Import CSV',
-|3,0,5,1,1,0,1602599458,"#    return render_template('import_csv.html', title='Import CSV',"
+	          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+|3,0,5,1,1,0,1602632872,"          <img class=\"rounded-circle article-img\" src=\"{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}\">"
 "6	LINE	0
-	#    elif request.method == 'GET':
-|3,0,6,1,1,0,1602599457,"#    elif request.method == 'GET':"
+	          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('active_dataset', import_id=imported.id) }}">Set Active</a>
+|3,0,6,1,1,0,1602631627,"          <a class=\"btn btn-secondary btn-sm mt-1 mb-1\" href=\"{{ url_for('active_dataset', import_id=imported.id) }}\">Set Active</a>"
 "7	LINE	0
-	#        return redirect(url_for("home"))
-|3,0,7,1,1,0,1602599457,"#        return redirect(url_for(\"home\"))"
+	          <a class="nav-item nav-link" href="/about">About</a>
+|3,0,7,1,1,0,1602618609,"          <a class=\"nav-item nav-link\" href=\"/about\">About</a>"
 "8	LINE	0
-	#    elif request.method == 'GET':
-|3,0,8,1,1,0,1602599457,"#    elif request.method == 'GET':"
+	            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_imported', imported_id=import.id) }}">Update</a>
+|3,0,8,1,1,0,1602601183,"            <a class=\"btn btn-secondary btn-sm mt-1 mb-1\" href=\"{{ url_for('update_imported', imported_id=import.id) }}\">Update</a>"
 "9	LINE	0
-	#        db.session.commit()
-|3,0,9,1,1,0,1602599456,"#        db.session.commit()"
+	    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + import.author.image_file) }}">
+|3,0,9,1,1,0,1602600709,"    <img class=\"rounded-circle article-img\" src=\"{{ url_for('static', filename='profile_pics/' + import.author.image_file) }}\">"
 ""-	CHAR	0
-	)
-|3,1,36,0,1,0,1602617933,")"
+	*
+|3,1,36,0,1,0,1602644197,"*"
 
 # File marks:
-'0  191  34  ~/webui/routes.py
-|4,48,191,34,1602618228,"~/webui/routes.py"
-'1  32  48  ~/webui/templates/imports.html
-|4,49,32,48,1602618032,"~/webui/templates/imports.html"
-'2  32  53  ~/webui/templates/imports.html
-|4,50,32,53,1602615322,"~/webui/templates/imports.html"
-'3  8  24  ~/webui/templates/imports.html
-|4,51,8,24,1602613572,"~/webui/templates/imports.html"
-'4  8  24  ~/webui/templates/imports.html
-|4,52,8,24,1602613572,"~/webui/templates/imports.html"
-'5  8  24  ~/webui/templates/imports.html
-|4,53,8,24,1602613572,"~/webui/templates/imports.html"
-'6  8  24  ~/webui/templates/imports.html
-|4,54,8,24,1602613572,"~/webui/templates/imports.html"
-'7  5  2  ~/webui/templates/post.html
-|4,55,5,2,1602612208,"~/webui/templates/post.html"
-'8  29  70  ~/webui/templates/imported.html
-|4,56,29,70,1602612179,"~/webui/templates/imported.html"
-'9  12  67  ~/webui/templates/dashboard1.html
-|4,57,12,67,1602612063,"~/webui/templates/dashboard1.html"
+'0  11  20  ~/.git/info/exclude
+|4,48,11,20,1602644212,"~/.git/info/exclude"
+'1  12  14  ~/.git/info/exclude
+|4,49,12,14,1602644073,"~/.git/info/exclude"
+'2  11  14  ~/.git/info/exclude
+|4,50,11,14,1602644073,"~/.git/info/exclude"
+'3  13  6  ~/.git/info/exclude
+|4,51,13,6,1602643929,"~/.git/info/exclude"
+'4  13  6  ~/.git/info/exclude
+|4,52,13,6,1602643929,"~/.git/info/exclude"
+'5  12  6  ~/.git/info/exclude
+|4,53,12,6,1602643929,"~/.git/info/exclude"
+'6  12  6  ~/.git/info/exclude
+|4,54,12,6,1602643929,"~/.git/info/exclude"
+'7  15  28  ~/webui/templates/active.html
+|4,55,15,28,1602643807,"~/webui/templates/active.html"
+'8  51  29  ~/mining_csv/__init__.py
+|4,56,51,29,1602642513,"~/mining_csv/__init__.py"
+'9  19  0  ~/webui/templates/active.html
+|4,57,19,0,1602642147,"~/webui/templates/active.html"
 
 # Jumplist (newest first):
--'  191  34  ~/webui/routes.py
-|4,39,191,34,1602618228,"~/webui/routes.py"
--'  32  48  ~/webui/templates/imports.html
-|4,39,32,48,1602618032,"~/webui/templates/imports.html"
--'  32  53  ~/webui/templates/imports.html
-|4,39,32,53,1602615322,"~/webui/templates/imports.html"
--'  8  24  ~/webui/templates/imports.html
-|4,39,8,24,1602613757,"~/webui/templates/imports.html"
--'  8  24  ~/webui/templates/imports.html
-|4,39,8,24,1602613757,"~/webui/templates/imports.html"
--'  8  24  ~/webui/templates/imports.html
-|4,39,8,24,1602613572,"~/webui/templates/imports.html"
--'  1  0  ~/webui/templates/imports.html
-|4,39,1,0,1602612766,"~/webui/templates/imports.html"
--'  1  0  ~/webui/templates/imports.html
-|4,39,1,0,1602612766,"~/webui/templates/imports.html"
--'  1  0  ~/webui/templates/imports.html
-|4,39,1,0,1602612766,"~/webui/templates/imports.html"
--'  5  2  ~/webui/templates/post.html
-|4,39,5,2,1602612208,"~/webui/templates/post.html"
--'  5  2  ~/webui/templates/post.html
-|4,39,5,2,1602612208,"~/webui/templates/post.html"
--'  5  2  ~/webui/templates/post.html
-|4,39,5,2,1602612208,"~/webui/templates/post.html"
--'  5  2  ~/webui/templates/post.html
-|4,39,5,2,1602612208,"~/webui/templates/post.html"
--'  5  2  ~/webui/templates/post.html
-|4,39,5,2,1602612208,"~/webui/templates/post.html"
--'  5  2  ~/webui/templates/post.html
-|4,39,5,2,1602612208,"~/webui/templates/post.html"
--'  5  2  ~/webui/templates/post.html
-|4,39,5,2,1602612208,"~/webui/templates/post.html"
--'  5  2  ~/webui/templates/post.html
-|4,39,5,2,1602612208,"~/webui/templates/post.html"
--'  1  2  ~/webui/templates/post.html
-|4,39,1,2,1602612186,"~/webui/templates/post.html"
--'  1  2  ~/webui/templates/post.html
-|4,39,1,2,1602612186,"~/webui/templates/post.html"
--'  1  2  ~/webui/templates/post.html
-|4,39,1,2,1602612186,"~/webui/templates/post.html"
--'  1  2  ~/webui/templates/post.html
-|4,39,1,2,1602612186,"~/webui/templates/post.html"
--'  1  2  ~/webui/templates/post.html
-|4,39,1,2,1602612186,"~/webui/templates/post.html"
--'  1  2  ~/webui/templates/post.html
-|4,39,1,2,1602612186,"~/webui/templates/post.html"
--'  1  2  ~/webui/templates/post.html
-|4,39,1,2,1602612186,"~/webui/templates/post.html"
--'  1  2  ~/webui/templates/post.html
-|4,39,1,2,1602612186,"~/webui/templates/post.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  29  70  ~/webui/templates/imported.html
-|4,39,29,70,1602612179,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602612065,"~/webui/templates/imported.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  12  67  ~/webui/templates/dashboard1.html
-|4,39,12,67,1602612063,"~/webui/templates/dashboard1.html"
--'  27  24  ~/webui/routes.py
-|4,39,27,24,1602611748,"~/webui/routes.py"
--'  28  51  ~/webui/routes.py
-|4,39,28,51,1602611741,"~/webui/routes.py"
--'  26  36  ~/webui/routes.py
-|4,39,26,36,1602611734,"~/webui/routes.py"
--'  29  8  ~/webui/routes.py
-|4,39,29,8,1602611732,"~/webui/routes.py"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602610249,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602610249,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602610249,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602610249,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602610249,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602610249,"~/webui/templates/imported.html"
--'  30  70  ~/webui/templates/imported.html
-|4,39,30,70,1602610249,"~/webui/templates/imported.html"
+-'  11  20  ~/.git/info/exclude
+|4,39,11,20,1602644212,"~/.git/info/exclude"
+-'  12  14  ~/.git/info/exclude
+|4,39,12,14,1602644193,"~/.git/info/exclude"
+-'  11  14  ~/.git/info/exclude
+|4,39,11,14,1602644073,"~/.git/info/exclude"
+-'  13  6  ~/.git/info/exclude
+|4,39,13,6,1602644036,"~/.git/info/exclude"
+-'  12  6  ~/.git/info/exclude
+|4,39,12,6,1602644036,"~/.git/info/exclude"
+-'  12  6  ~/.git/info/exclude
+|4,39,12,6,1602643929,"~/.git/info/exclude"
+-'  1  0  ~/.git/info/exclude
+|4,39,1,0,1602643913,"~/.git/info/exclude"
+-'  1  0  ~/.git/info/exclude
+|4,39,1,0,1602643913,"~/.git/info/exclude"
+-'  1  0  ~/.git/info/exclude
+|4,39,1,0,1602643913,"~/.git/info/exclude"
+-'  15  28  ~/webui/templates/active.html
+|4,39,15,28,1602643807,"~/webui/templates/active.html"
+-'  15  28  ~/webui/templates/active.html
+|4,39,15,28,1602643807,"~/webui/templates/active.html"
+-'  15  28  ~/webui/templates/active.html
+|4,39,15,28,1602643807,"~/webui/templates/active.html"
+-'  15  28  ~/webui/templates/active.html
+|4,39,15,28,1602643807,"~/webui/templates/active.html"
+-'  15  28  ~/webui/templates/active.html
+|4,39,15,28,1602643807,"~/webui/templates/active.html"
+-'  15  28  ~/webui/templates/active.html
+|4,39,15,28,1602643807,"~/webui/templates/active.html"
+-'  15  28  ~/webui/templates/active.html
+|4,39,15,28,1602643807,"~/webui/templates/active.html"
+-'  15  28  ~/webui/templates/active.html
+|4,39,15,28,1602643807,"~/webui/templates/active.html"
+-'  51  29  ~/mining_csv/__init__.py
+|4,39,51,29,1602642513,"~/mining_csv/__init__.py"
+-'  51  29  ~/mining_csv/__init__.py
+|4,39,51,29,1602642513,"~/mining_csv/__init__.py"
+-'  51  29  ~/mining_csv/__init__.py
+|4,39,51,29,1602642513,"~/mining_csv/__init__.py"
+-'  51  29  ~/mining_csv/__init__.py
+|4,39,51,29,1602642513,"~/mining_csv/__init__.py"
+-'  51  29  ~/mining_csv/__init__.py
+|4,39,51,29,1602642513,"~/mining_csv/__init__.py"
+-'  51  29  ~/mining_csv/__init__.py
+|4,39,51,29,1602642513,"~/mining_csv/__init__.py"
+-'  51  29  ~/mining_csv/__init__.py
+|4,39,51,29,1602642513,"~/mining_csv/__init__.py"
+-'  51  29  ~/mining_csv/__init__.py
+|4,39,51,29,1602642513,"~/mining_csv/__init__.py"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  19  0  ~/webui/templates/active.html
+|4,39,19,0,1602642147,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602642120,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  1  0  ~/webui/templates/active.html
+|4,39,1,0,1602642106,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602641373,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602641373,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602641373,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602641373,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602641373,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602641373,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602641373,"~/webui/templates/active.html"
+-'  9  0  ~/webui/templates/active.html
+|4,39,9,0,1602641373,"~/webui/templates/active.html"
+-'  51  29  ~/mining_csv/__init__.py
+|4,39,51,29,1602641321,"~/mining_csv/__init__.py"
+-'  51  29  ~/mining_csv/__init__.py
+|4,39,51,29,1602641321,"~/mining_csv/__init__.py"
+-'  51  29  ~/mining_csv/__init__.py
+|4,39,51,29,1602641321,"~/mining_csv/__init__.py"
 
 # History of marks within files (newest to oldest):
 
+> ~/.git/info/exclude
+	*	1602644210	0
+	"	11	20
+	^	11	21
+	.	11	20
+	+	12	13
+	+	11	20
+
+> ~/webui/templates/active.html
+	*	1602643158	0
+	"	15	28
+	^	15	29
+	.	15	28
+	+	3	37
+	+	5	0
+	+	7	0
+	+	8	0
+	+	9	0
+	+	7	46
+	+	9	0
+	+	14	42
+	+	11	57
+	+	18	12
+	+	15	41
+	+	11	46
+	+	15	24
+	+	11	14
+	+	15	28
+
+> ~/mining_csv/__init__.py
+	*	1602642485	0
+	"	51	29
+	^	60	30
+	.	60	23
+	+	1	0
+	+	5	9
+	+	6	0
+	+	60	23
+
+> ~/mining_csv/mining_csv.py
+	*	1602634042	0
+	"	42	26
+	^	42	27
+	.	8	27
+	+	8	27
+
+> ~/webui/templates/layout.html
+	*	1602633329	0
+	"	43	7
+	^	71	10
+	.	67	85
+	+	66	82
+	+	66	53
+	+	61	12
+	+	24	63
+	+	25	0
+	+	28	0
+	+	29	0
+	+	26	77
+	+	27	63
+	+	28	59
+	+	66	86
+	+	66	81
+	+	66	84
+	+	66	66
+	+	66	141
+	+	66	0
+	+	66	97
+	+	66	10
+	+	67	85
+
+> ~/webui/templates/imports.html
+	*	1602632166	0
+	"	15	4
+	.	15	0
+	+	11	99
+	+	9	19
+	+	7	43
+	+	8	44
+	+	4	104
+	+	11	111
+	+	18	51
+	+	19	55
+	+	34	67
+	+	9	21
+	+	34	48
+	+	16	131
+	+	16	10
+	+	14	0
+	+	16	132
+	+	16	0
+	+	16	112
+	+	15	0
+
 > ~/webui/routes.py
-	*	1602618167	0
-	"	191	34
-	^	191	35
-	.	191	34
-	+	148	12
-	+	152	0
-	+	175	0
-	+	151	9
-	+	146	0
-	+	151	70
-	+	149	11
-	+	146	20
-	+	151	84
-	+	148	13
-	+	192	0
-	+	153	62
-	+	162	35
-	+	187	45
-	+	191	67
-	+	156	44
-	+	178	44
-	+	161	22
-	+	148	10
-	+	146	19
-	+	151	67
-	+	153	19
-	+	175	19
-	+	187	67
-	+	191	37
-	+	162	37
-	+	64	83
-	+	139	0
-	+	141	51
-	+	138	45
-	+	202	41
-	+	18	13
-	+	18	9
-	+	26	113
-	+	26	73
-	+	27	68
-	+	16	38
-	+	18	0
-	+	17	32
-	+	18	0
-	+	140	37
-	+	141	0
-	+	142	0
-	+	151	106
-	+	18	104
-	+	20	0
-	+	19	51
-	+	27	181
-	+	27	89
-	+	29	101
-	+	27	36
-	+	27	148
+	*	1602629152	0
+	"	237	27
+	^	46	28
+	.	1	0
 	+	29	92
 	+	27	24
 	+	29	0
@@ -384,59 +434,115 @@ $imported
 	+	26	0
 	+	27	45
 	+	27	0
-	+	141	0
-	+	142	0
-	+	151	83
-	+	150	18
-	+	20	32
-	+	151	68
-	+	191	34
-	+	151	79
 	+	174	0
-	+	163	0
-	+	164	19
-	+	166	16
-	+	167	16
-	+	172	21
-	+	173	37
-	+	153	0
-	+	154	0
-	+	155	0
-	+	156	0
-	+	157	0
-	+	158	0
-	+	159	0
-	+	160	0
-	+	161	0
-	+	162	0
-	+	191	36
-	+	57	41
+	+	175	0
+	+	184	83
+	+	183	18
+	+	20	32
+	+	184	68
+	+	224	34
+	+	184	79
+	+	207	0
+	+	196	0
+	+	197	19
+	+	199	16
+	+	200	16
+	+	205	21
+	+	206	37
+	+	186	0
+	+	187	0
+	+	188	0
+	+	189	0
+	+	190	0
+	+	191	0
+	+	192	0
+	+	193	0
+	+	194	0
+	+	195	0
+	+	224	36
+	+	90	41
 	+	17	8
 	+	21	39
 	+	20	8
 	+	19	8
-	+	42	41
+	+	75	41
 	+	21	53
 	+	17	8
 	+	20	31
-	+	191	34
+	+	224	34
+	+	4	95
+	+	60	21
+	+	62	98
+	+	66	0
+	+	60	10
+	+	33	0
+	+	47	31
+	+	65	38
+	+	64	68
+	+	65	38
+	+	47	29
+	+	47	39
+	+	49	60
+	+	50	11
+	+	49	0
+	+	55	0
+	+	36	31
+	+	39	0
+	+	53	69
+	+	50	44
+	+	39	23
+	+	38	0
+	+	62	101
+	+	47	54
+	+	39	24
+	+	36	12
+	+	35	32
+	+	36	20
+	+	39	24
+	+	47	34
+	+	40	16
+	+	50	7
+	+	47	26
+	+	50	4
+	+	47	0
+	+	40	35
+	+	41	23
+	+	44	8
+	+	50	9
+	+	39	18
+	+	50	63
+	+	51	44
+	+	43	25
+	+	52	70
+	+	53	39
+	+	53	66
+	+	53	39
+	+	53	66
+	+	46	25
+	+	41	23
+	+	42	29
+	+	43	22
+	+	46	27
+	+	179	0
+	+	1	0
 
-> ~/webui/templates/imports.html
-	*	1602615829	0
-	"	32	48
-	^	32	49
-	.	32	48
-	+	11	99
-	+	9	19
-	+	7	43
-	+	8	44
-	+	4	104
-	+	11	111
-	+	16	51
-	+	17	55
-	+	32	67
-	+	9	21
-	+	32	48
+> /usr/share/vim/vim80/doc/help.txt
+	*	1602629144	0
+	"	10	0
+
+> ~/webui/__init__.py
+	*	1602628011	0
+	"	9	55
+	.	9	55
+	+	9	55
+
+> ~/.git/config
+	*	1602623877	0
+	"	1	0
+
+> ~/.gitconfig
+	*	1602623866	0
+	"	1	0
 
 > ~/webui/templates/post.html
 	*	1602612198	0
@@ -510,47 +616,3 @@ $imported
 > ~/webui/templates/import_csv.html
 	*	1602587837	0
 	"	6	0
-
-> ~/webui/templates/import_csv2.html
-	*	1602587650	0
-	"	11	56
-	^	11	57
-	.	11	56
-	+	4	0
-	+	11	56
-
-> ~/webui/__init__.py
-	*	1602584284	0
-	"	1	0
-
-> ~/webui/ap
-	*	1602584250	0
-	"	1	0
-
-> webui/routes.py
-	*	1602583467	0
-	"	1	0
-
-> ~/webui/forms.py
-	*	1602579245	0
-	"	65	4
-
-> ~/webui/templates/import_csv
-	*	1602574835	0
-	"	1	0
-
-> ~/webui/templates/layout.html
-	*	1602573974	0
-	"	66	53
-	^	66	54
-	.	66	53
-	+	66	82
-	+	66	53
-
-> /etc/profile
-	*	1602571305	0
-	"	54	0
-
-> /etc/shells
-	*	1602571246	0
-	"	1	0
