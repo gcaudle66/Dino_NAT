@@ -155,6 +155,23 @@ def save_csv(import_csv):
     return csv_fn
 
 
+
+@app.route('/index', methods=["GET", "POST"])
+@login_required
+def index():
+    if current_user.is_authenticated:
+        files = os.listdir(app.config['UPLOAD_FOLDER'])
+        return render_template('index.html', files=files)
+    else:
+        flash("You are not authorized to access this page!", "danger")
+        return redirect(url_for("login"))
+
+
+@app.route("/uploads/<filename>")
+def upload(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
 @app.route("/importcsv", methods=["GET", "POST"])
 @login_required
 def import_csv():
