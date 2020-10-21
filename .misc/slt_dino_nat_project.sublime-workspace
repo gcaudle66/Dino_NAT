@@ -1,0 +1,234 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"view package file ",
+				"View Package File"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 130.0,
+		"history":
+		[
+			"exit()",
+			"python",
+			"os.environ",
+			"environ",
+			"path",
+			"os.getcwd()",
+			"import os",
+			"import dino",
+			"dino.py",
+			"python"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/gcaudle/python/devroot/Dino_NAT/.misc/C:\\var\\devroot\\Dino_NAT"
+	],
+	"file_history":
+	[
+		"/C/var/devroot/Dino_NN/slt_dino_nn_project.sublime-project",
+		"/C/var/devroot/Dino_NAT/mine_wlc_ap.py",
+		"/C/var/devroot/Dino_NAT/templates/cisco_ios_show_ap_template-v2_5.textfsm",
+		"/C/Users/gcaudle/OneDrive/Apps/Sublime Text Build 3211 x64/Data/Packages/User/terminus-Python3.sublime-build",
+		"/C/var/devroot/Dino/classes.py",
+		"/C/Users/gcaudle/OneDrive/Apps/Sublime Text Build 3211 x64/Data/Packages/User/terminus.sublime-build",
+		"/C/var/devroot/Dino_NN/main.py",
+		"/C/Users/gcaudle/OneDrive/Documents/Python/Development/Dino/ap_rename18.py",
+		"/C/Users/gcaudle/OneDrive/Documents/Python/Development/Dino v25/mine_wlc_ap.py",
+		"/C/Users/gcaudle/OneDrive/Documents/Python/Development/Dino v25/templates/cisco_ap_from_csv_template-v3_NAME.textfsm",
+		"/C/Users/gcaudle/OneDrive/Documents/Python/Development/Dino v25/templates/cisco_ap_from_csv_template_TAG-v3.textfsm",
+		"/C/Users/gcaudle/OneDrive/Documents/Python/Development/Dino v25/templates/cisco_ap_from_csv_template_CNTRLS-v3.textfsm",
+		"/C/Users/gcaudle/OneDrive/Documents/Python/Development/Dino/pi_name1.csv",
+		"/C/Users/gcaudle/OneDrive/Documents/Python/Development/Dino-project-sublime.sublime-project",
+		"/C/Users/gcaudle/OneDrive/Documents/Python/Development/Dino/dino.py"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"'",
+			"\\\\\\\\",
+			"[]\n"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"\"",
+			"\\"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
+	"output.Terminus Build Results":
+	{
+		"height": 123.0
+	},
+	"output.exec":
+	{
+		"height": 262.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/terminus-Python3.sublime-build",
+	"project": "slt_dino_nat_project.sublime-project",
+	"replace":
+	{
+		"height": 70.6666666667
+	},
+	"save_all_on_build": false,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 326.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

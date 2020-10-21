@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for key,value in active.items() %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" "#">{{ key, value }}</a>
+            </div>
+        </article>
+    {% endfor %}
+    {% for line in parsedCSV_results %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+		<a class="mr-2" "#">{{ line }}</a>
+	    </div>
+	</article>
+	{% endfor %}
+{% endblock content %}
+

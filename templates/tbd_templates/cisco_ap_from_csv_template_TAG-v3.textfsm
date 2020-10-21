@@ -1,0 +1,9 @@
+Value AP_NAME (.+?)
+Value MAC_ADDRESS (.+?)
+Value POLICY_TAG (.+?)
+Value SITE_TAG (.+?)
+Value RF_TAG (.+?)
+
+Start
+  ^Tag(,|\s)$$
+  ^${AP_NAME}(,|\s)${MAC_ADDRESS}(,|\s)${POLICY_TAG}(,|\s)${SITE_TAG}(,|\s)${RF_TAG}(,|\s)$$ -> Record

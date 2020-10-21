@@ -1,0 +1,14 @@
+{
+	"folders":
+	[
+		{
+			"path": "C:\\var\\devroot\\Dino_NAT"
+		}
+	],
+	"settings":
+	[
+		{
+			"python_interpreter": "C:\\var\\devroot\\Dino_NN\\dino_nat_venv\\Scripts\\python"
+		}
+	]
+}
