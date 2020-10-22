@@ -2,6 +2,7 @@ import os
 import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort, send_from_directory
+from flask_table import Table, Col
 from webui import app, db, bcrypt
 from webui.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ImportCSV
 from webui.models import User, Post, Import
@@ -36,7 +37,6 @@ def set_active_dataset_label(new_label):
     return label
 
 active_dataset_info = {
-        "label": "No file selcted",
         "import_id": "null",
         "import_filename": "null",
         "import_author": "null"
@@ -46,7 +46,6 @@ active_dataset_file = "null"
 #@set_active_dataset_label(label)
 def set_active_dataset_file(import_id):
     active_dataset_file = Import.query.get_or_404(import_id)
-    active_dataset_info["label"] = active_dataset_file.filename
     active_dataset_info["import_id"] = import_id
     active_dataset_info["import_filename"] = active_dataset_file.filename
     active_dataset_info["import_author"] = active_dataset_file.author
@@ -59,8 +58,10 @@ def set_active_dataset_file(import_id):
 def active_dataset(import_id):
     if current_user.is_authenticated:
         active_dataset_file = set_active_dataset_file(import_id)
-        parsedCSV_results = mine_csv('uploads/as_orig_name58b423ab4ade260ac.csv')
-        return render_template('active.html', title='Active DataSet File', parsedCSV_results=parsedCSV_results, active=active_dataset_info)
+        import_path = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], active_dataset_file.filename)
+        parsedCSV_results = mine_csv(import_path)
+        final_CSVresults = format_csv(parsedCSV_results) 
+        return render_template('active.html', title='Active DataSet File',final_CSVresults=final_CSVresults, active=active_dataset_info)
     else:
         flash("You must be logged in to access this page", "danger")
         return redirect(url_for("Home"))
@@ -146,6 +147,10 @@ parsedCSV_results = []
 def mine_csv(csv_file):
     parsedCSV_results = mining_csv.parseCSV(csv_file)
     return parsedCSV_results
+
+def format_csv(parsedCSV_results):
+    final_CSVresults = mining_csv.formatMacs(parsedCSV_results)
+    return final_CSVresults
 
 def save_csv(import_csv):
     random_hex = secrets.token_hex(8)

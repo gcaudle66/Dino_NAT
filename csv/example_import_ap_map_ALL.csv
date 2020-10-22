@@ -1,4 +1,4 @@
-AP Name,Ethernet MAC,Policy Tag,Site Tag,RF Tag,Reboot,Default
+AP Name,AP MAC Address,Policy Tag Name,Site Tag Name,RF Tag Name,Reboot,Default
 NUTTER.BUTTER1,683b:78:2b:o8:b2,test-pol-tag,test-site-tag,rf-tag
 Oreo.Cookie2,78bc.1ab3.c8fc,test-pol-tag,test-site-tag,test-rf-tag
 Mars.Bar.AP19,78bc.1adb.c744,test-pol-tag,test-site-tag,test-rf-tag

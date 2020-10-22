@@ -4,7 +4,9 @@ from netmiko import ConnectHandler
 import textfsm
 import os
 cur_path = os.getcwd()
-csv_dir = "../webui/uploads"
+csv_dir = "webui/uploads/"
+templates_dir = "templates/"
+discards_errs = []
 
 def mine_cwd_csv():
     print("-------------------------------------------\n" \
@@ -45,7 +47,7 @@ def parseCSV(csv_choice):
     """ using a TextFSM template that looks for only certain \n""" \
     """ fields in the CSV. These fields are defined in the   \n""" \
     """ below mentioned template variable                    \n"""
-    with open("../templates/cisco_ap_from_csv_template-v3.textfsm") as template:
+    with open("templates/cisco_ap_from_csv_template-v3.textfsm") as template:
         results_template = textfsm.TextFSM(template)
         content2parse = open(csv_choice)
         content = content2parse.read()
@@ -54,7 +56,85 @@ def parseCSV(csv_choice):
         except textfsm.TextFSMError as err:
             print(err.error)
         else:
-            return parsedCSV_results #newLower_list(parsedCSV_results)
+            return formatMacs(parsedCSV_results) #newLower_list(parsedCSV_results)
+
+
+def newLower_list(content):
+    """ Converts any MAC address fields to lowercase \n""" \
+    """ Converts AP names fields to lowercase        \n"""
+    output = []
+    for entry in range(len(content)):
+        entry = content.pop()
+        name = str.lower(entry[0])
+        mac = str.lower(entry[1])
+        new_entry = [name, mac]
+        output.append(new_entry)
+    return formatMacs(output)
+
+
+def formatMacs(content):
+    """ here is where it gets fun. This function takes data from      \n""" \
+    """ the imported CSV list where MAC addresses may not be in       \n""" \
+    """ the correct format of xxx.xxx.xxxx and removes any existing   \n""" \
+    """ delimeters, checks to make sure there are no more than 12 hex \n""" \
+    """ characters, and if no error is present, rebuilds them into    \n""" \
+    """ the correct xxxx.xxxx.xxxx format. If any error is raised     \n""" \
+    """ during the process, that entry is ignored.                    \n"""
+    print("-------------------------------------------\n" \
+          "Normalizing MAC Addresses found in CSV     \n" \
+          "All MACs will be set to lowercase and then \n" \
+          "checked against REGEX to make sute they are\n" \
+          "in format xxxx.xxxx.xxxx before proceeding \n" \
+          "-------------------------------------------\n")
+    import re
+    re_fmt = '[a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]\.[a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]\.[a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]'
+#    re_fmt = '^[a-fA-F0-9]{4}\.[a-fA-F0-9]{4}\.[a-fA-F0-9]{4}\b'
+    final_CSVresults = []
+    discards_errs = [] 
+    bad_chars = [":", "."]
+    for entry in range(len(content)):
+        entry = content.pop()
+        if re.match(re_fmt, entry[1]):
+            final_CSVresults.append(entry)
+        else:
+            mac = entry[1]
+            print("Incorrect format: " + mac)
+            for i in bad_chars:
+                mac = mac.replace(i, "")
+            print(f"Removing seperators: {mac}")
+            if len(mac) > 12:
+                err = "*********************************************************\n" \
+                    "* Houston, we have a problem!                           \n" \
+                    "* ERROR: Import error occured while parsing             \n" \
+                    "* MAC Address " + mac + ".More than 12 characters present\n" \
+                    "* in MAC.  Logging, discarding this entry and moving on!\n" \
+                    "*********************************************************"
+                discard = {"mac": mac,"error":  err}
+                discards_errs.append(discard)
+            else:
+                new_mac = mac[:4] + "." + mac[4:8] + "." + mac[8:12]
+                print(f"Reformatted: {new_mac}")
+                if re.match(re_fmt, new_mac):
+                    print("Format is now correct...adding to list: " + new_mac)
+                    new_entry = [entry[0], new_mac]
+                    final_CSVresults.append(new_entry)
+                else:
+                    exp_err = "*************************************\n"
+                    "* Houston, we have a problem!                           *\n"
+                    "* ERROR: Unable to normalize MAC Address:               *\n"
+                    f"* {new_mac}       Possible Non-Hex Character in MAC    *\n"
+                    "* Logging, discarding this entry and moving on!         *\n"
+                    "********************************************************"
+                    discard = {"mac": new_mac,"error":  exp_err}
+                    discards_errs.append(discard)
+
+    print("*********************************************************");
+    print("* The following entries were found in the imported CSV  *");
+    print("*********************************************************");
+    for row in range(len(final_CSVresults)):
+        print(final_CSVresults[row], sep="\n")
+    return final_CSVresults, discards_errs
+
 
 if __name__ == "__main__":
     parsedCSV_results = mine_cwd_csv()
