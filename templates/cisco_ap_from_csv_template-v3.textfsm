@@ -6,4 +6,4 @@ Value RfTag (.+)
 
 Start
  ^AP Name,AP MAC Address,Policy Tag Name,Site Tag Name,RF Tag Name,Reboot,Default -> Next
-  ^${AP_NAME},${MAC_ADDRESS},${PolicyTag},${SiteTag},${RfTag} -> Record
+ ^${AP_NAME},${MAC_ADDRESS},${PolicyTag},${SiteTag},${RfTag} -> Record
