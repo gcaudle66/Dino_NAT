@@ -6,13 +6,12 @@
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2" href="#">{{ import.author.username }}</a>
-              <small class="text-muted">{{ import.date_posted.strftime('%Y-%m-%d %h:%m'), import.id  }}</small>
+              <small class="text-muted"><b>Date Imported: </b>{{ import.date_posted.strftime('%y-%m-%d') }} <b>Import ID: </b>{{ import.id  }}</small>
             </div>
-            <h3>
-		    <a class="article-title" href="{{ url_for('imports', import_id=import.id) }}">{{ import.filename }}</a></h3>
-            <p class="article-content">{{ import.filename }}</p>
+            <h5>
+		    <a class="article-title" href="{{ url_for('imports', import_id=import.id) }}">{{ import.filename }}</a></h5>
+<!--             <p class="article-content">{{ import.filename }}</p>-->
           </div>
         </article>
     {% endfor %}
 {% endblock content %}
-

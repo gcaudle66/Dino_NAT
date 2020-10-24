@@ -6,7 +6,7 @@ from flask_table import Table, Col
 from webui.data_print import pp_imported_csv, pp_formatted_csv
 from webui import app, db, bcrypt
 from webui.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ImportCSV
-from webui.models import User, Post, Import
+from webui.models import User, Post, Import, Device, Site
 import mining_csv
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -21,13 +21,15 @@ def home():
         posts = Post.query.all()
     return render_template('home.html', title="Home", posts=posts)
 
+
 @app.route("/dashboard")
 @login_required
 def dashboard():
     if current_user.is_authenticated:
         imports = Import.query.all()
         page = request.args.get('page', 1, type=int)
-        posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+        posts = Post.query.order_by(
+            Post.date_posted.desc()).paginate(page=page, per_page=5)
         return render_template("dashboard1.html", title="User Dashboard", imports=imports)
     else:
         return redirect(url_for("home"))
@@ -37,14 +39,17 @@ def set_active_dataset_label(new_label):
     label = new_label
     return label
 
+
 active_dataset_info = {
-        "import_id": "null",
-        "import_filename": "null",
-        "import_author": "null"
-        }
+    "import_id": "null",
+    "import_filename": "null",
+    "import_author": "null"
+}
 
 active_dataset_file = "null"
 #@set_active_dataset_label(label)
+
+
 def set_active_dataset_file(import_id):
     active_dataset_file = Import.query.get_or_404(import_id)
     active_dataset_info["import_id"] = import_id
@@ -53,28 +58,29 @@ def set_active_dataset_file(import_id):
     return active_dataset_file
 
 
-
 @app.route("/dashboard/active-dataset<int:import_id>", methods=["GET"])
 @login_required
 def active_dataset(import_id):
     if current_user.is_authenticated:
         active_dataset_file = set_active_dataset_file(import_id)
-        import_path = os.path.join(app.config['UPLOAD_FOLDER'], active_dataset_file.filename)
+        import_path = os.path.join(
+            app.config['UPLOAD_FOLDER'], active_dataset_file.filename)
         parsedCSV_results = mine_csv(import_path)
         final_CSVresults = format_csv(parsedCSV_results[0])
         result = pp_formatted_csv(final_CSVresults[0])
-        return render_template('active.html', title='Active DataSet File',results=result, active=active_dataset_info)
+        return render_template('active.html', title='Active DataSet File', results=result, active=active_dataset_info)
     else:
         flash("You must be logged in to access this page", "danger")
         return redirect(url_for("Home"))
+
 
 @app.route("/flows/ap-renamerer")
 def flow_ap_renamerer():
     if current_user.is_authenticated:
         return render_template("ap_renamerer.html")
     else:
-            flash("You must be logged in to access this page", "danger")
-            return redirect(url_for("Home"))
+        flash("You must be logged in to access this page", "danger")
+        return redirect(url_for("Home"))
 
 
 @app.route("/about")
@@ -88,8 +94,10 @@ def register():
         return redirect(url_for('dashboard'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        hashed_password = bcrypt.generate_password_hash(
+            form.password.data).decode('utf-8')
+        user = User(username=form.username.data,
+                    email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
@@ -123,7 +131,8 @@ def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
-    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+    picture_path = os.path.join(
+        app.root_path, 'static/profile_pics', picture_fn)
 
     output_size = (125, 125)
     i = Image.open(form_picture)
@@ -149,19 +158,24 @@ def account():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    image_file = url_for(
+        'static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
+
 parsedCSV_results = []
+
 
 def mine_csv(csv_file):
     parsedCSV_results = mining_csv.parseCSV(csv_file)
     return parsedCSV_results
 
+
 def format_csv(parsedCSV_results):
     final_CSVresults = mining_csv.formatMacs(parsedCSV_results)
     return final_CSVresults
+
 
 def save_csv(import_csv):
     random_hex = secrets.token_hex(8)
@@ -169,7 +183,6 @@ def save_csv(import_csv):
     csv_fn = f_name + random_hex + f_ext
     save = import_csv.save(os.path.join(app.config['UPLOAD_FOLDER'], csv_fn))
     return csv_fn
-
 
 
 @app.route('/index', methods=["GET", "POST"])
@@ -197,7 +210,8 @@ def import_csv():
     if form.validate_on_submit():
         if form.csv.data:
             csv_fn = save_csv(form.csv.data)
-            insert = Import(filename=csv_fn, description=form.description.data, author=current_user)
+            insert = Import(
+                filename=csv_fn, description=form.description.data, author=current_user)
             db.session.add(insert)
             db.session.commit()
             flash(f'Your file {csv_fn} has been imported!', 'success')
@@ -209,6 +223,7 @@ def import_csv():
         current_user.username = current_user.username
     return render_template('import_csv.html', title='New Import',
                            form=form, legend=form.csv.label)
+
 
 @app.route("/imports/<int:import_id>")
 @login_required
@@ -231,6 +246,7 @@ def delete_import(post_id):
     flash('Your import has been deleted!', 'success')
     return redirect(url_for('dashboard'))
 
+
 @app.route("/imports/<int:import_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_imported(import_id):
@@ -249,12 +265,14 @@ def update_imported(import_id):
         form.description.data = imported.description
     return render_template('import_csv.html', title='Update Import', form=form)
 
+
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        post = Post(title=form.title.data,
+                    content=form.content.data, author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success')

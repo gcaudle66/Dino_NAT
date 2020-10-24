@@ -11,6 +11,7 @@ class Intent:
     Sanity chech at that point detemines rollback or continue.
     This ensures the intent of the engineer and the logic ==
     """
+
     def __init__(self, what, why, then, now):
         self.what = what
         self.why = why
@@ -18,47 +19,16 @@ class Intent:
         self.now = now
 
 
-
-class DinoMenu:
-    def __init__(self, title, opts, *args, **kwargs):
-        self.title = title
-        self.menu_opts = opts
-        self.stc_opts = self.static_opts()
-
-    def static_opts(self):
-        stc_opts = {'Ctrl-C': 'Discard any Changes and Exit'}
-
-    def list_opts(self):
-        """
-        Func to generate list of meu options provided
-        by a dict sent to class in format ...
-         { int: 'option title'} . Func will iterate
-         and list them
-        """
-        for key,value in self.menu_opts.items():
-            print("[{}] : {}".format(key, value))
-        for key, value in self.stc_opts.items():
-            print("[{}] : {}".format(key, value))
-    def basic_mFrame(self):
-        print("*********************************************************")
-        print("*                                                       *")
-        print("* Dino | Manually Helping You to Automate.              *")
-        print("*        Powered by Dino -ConneX-> System               *")
-        print("*                                                       *")
-        print("*********************************************************")
-        print(self.title)
-        print("*********************************************************")
-        self.list_opts()
-
 class AcPo:
     """
     This class defines the access point and all of its glory...
     or at least all we are concerned about in this version of Dino
     """
-    
-    def __init__(self,apname, ethmac):
+
+    def __init__(self, apname, ethmac, state=["current", "future"]):
         self.apname = apname
         self.ethmac = ethmac
+        self.state = state
 
     def configure(self, *args, **kwargs):
         """
@@ -70,10 +40,12 @@ class AcPo:
         self.dnac_managed = False
         self.dnac_ip4_add = "unset"
         self.location = "default"
+
     def tag_mapping(self):
         self.tag_RF = ""
         self.tag_Site = ""
         self.tag_Policy = ""
+
     def status_flags(self, *args, **kwargs):
         """
         The below flags are various markers to set for
@@ -115,10 +87,11 @@ class AcPo:
         or another validation check...this app will
         error out and dump to a log "why".
         """
-        ## state_data is a dict containing all data stored for
-        ### object as gathered since last poll. This is "PRE" config
-        #### data for check
+        # state_data is a dict containing all data stored for
+        # object as gathered since last poll. This is "PRE" config
+        # data for check
         self.pre_state_data = {}
+
         def __check__(self):
             """
             AP's !! PRE modifaction !! data current state/config data stored
@@ -126,6 +99,7 @@ class AcPo:
             to the POST modification for "desired state" checks
             """
             self.pre_state_data
+
         def __update__(self):
             """
             Force polling of APs controller device for new state info
@@ -133,34 +107,38 @@ class AcPo:
             """
 
 
-class ConnexList(object):
-	def __init__(self, match_list):
-		self.connexList = match_list
-		self.connexArgs = {}
-		self.sendCmds = []
-	def __enter__(self):
-		self.connexList = match_list.copy()
-		self.ConnexArgs = self.setConnArgs(self)
-		return self.connexList, ConnexArgs
-	def setConnArgs(self):
-		import getpass
-		self.connexArgs = {"ip": self.connexList[0]}
-		return self.connexArgs
-	def getConnArgs(self):
-		self.getConnArgs = print(self.connexArgs)
-	def getCmds(self):
-		self.sendCmds = ap_rename20.api_create_commands(connexList)
-		return self.sendCmds
-	def __exit__(self):
-		self.connexList.clear()
+# class ConnexList:
+#     def __init__(self, match_list):
+#         self.connexList = match_list
+#         self.connexArgs = {}
+#         self.sendCmds = []
 
-##########################  TEST BELOW HERE
-opts = {
-	1: "Bulk AP Rename for Multi-WLC, DNAC Managed Sites",
-	2: "Bulk AP Renamer Classic (v1.8) for Direct 1:1 WLC",
-	3: "Interact with DNAC APIs via -ConneX->API Utility"}
-title = "Dino DEV Test Menu Title"
+#     def __enter__(self):
+#         self.connexList = match_list.copy()
+#         self.ConnexArgs = self.setConnArgs(self)
+#         return self.connexList, ConnexArgs
 
-if __name__ == "__main__":
-    main_menu = DinoMenu(title, opts)
+#     def setConnArgs(self):
+#         import getpass
+#         self.connexArgs = {"ip": "", "username": "", "password": ""}
+#         return self.connexArgs
 
+#     def getConnArgs(self):
+#         self.getConnArgs = print(self.connexArgs)
+
+#     def getCmds(self):
+#         self.sendCmds = []
+#         return self.sendCmds
+
+#     def __exit__(self):
+#         self.connexList.clear()
+
+# ##########################  TEST BELOW HERE
+# opts = {
+#   1: "Bulk AP Rename for Multi-WLC, DNAC Managed Sites",
+#   2: "Bulk AP Renamer Classic (v1.8) for Direct 1:1 WLC",
+#   3: "Interact with DNAC APIs via -ConneX->API Utility"}
+# title = "Dino DEV Test Menu Title"
+
+# if __name__ == "__main__":
+#     main_menu = DinoMenu(title, opts)

@@ -15,8 +15,8 @@
           <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('active_dataset', import_id=imported.id) }}">Set Active</a>
         {% endif %}
       </div>
-      <h2 class="article-title">{{ imported.filename }}</h2>
-      <p class="article-content">{{ imported.description }}</p>
+      <h5 class="article-title">{{ imported.filename }}</h5>
+      <p class="article-content">Description: {{ imported.description }}</p>
     </div>
   </article>
   <!-- Modal -->
