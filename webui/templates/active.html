@@ -6,17 +6,15 @@
             <div class="article-metadata">
 		    <a class="mr-4" "#">{{ key }} : {{ value }}</a>
 	    </div>
-    {% endfor %}    
+    {% endfor %}
 	</article>
     <div class="container">
             <article class="media content-section">
-	    {% for line in final_CSVresults %}
           	<div class="media-body">
             	<div class="article-metadata">
-			<a class="mr-2" "#">{{ line }}</a>
+			<a class="mr-2" "#">{% include 'data.html' %}</a>
 	    </div>
 	  </div>
-	{% endfor %}
 	    </article>
     </div>
 {% endblock content %}

@@ -3,10 +3,11 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort, send_from_directory
 from flask_table import Table, Col
+from webui.data_print import pp_imported_csv, pp_formatted_csv
 from webui import app, db, bcrypt
 from webui.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ImportCSV
 from webui.models import User, Post, Import
-import mining_csv 
+import mining_csv
 from flask_login import login_user, current_user, logout_user, login_required
 
 
@@ -58,13 +59,23 @@ def set_active_dataset_file(import_id):
 def active_dataset(import_id):
     if current_user.is_authenticated:
         active_dataset_file = set_active_dataset_file(import_id)
-        import_path = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], active_dataset_file.filename)
+        import_path = os.path.join(app.config['UPLOAD_FOLDER'], active_dataset_file.filename)
         parsedCSV_results = mine_csv(import_path)
-        final_CSVresults = format_csv(parsedCSV_results[0]) 
-        return render_template('active.html', title='Active DataSet File',final_CSVresults=final_CSVresults, active=active_dataset_info)
+        final_CSVresults = format_csv(parsedCSV_results[0])
+        result = pp_formatted_csv(final_CSVresults[0])
+        return render_template('active.html', title='Active DataSet File',results=result, active=active_dataset_info)
     else:
         flash("You must be logged in to access this page", "danger")
         return redirect(url_for("Home"))
+
+@app.route("/flows/ap-renamerer")
+def flow_ap_renamerer():
+    if current_user.is_authenticated:
+        return render_template("ap_renamerer.html")
+    else:
+            flash("You must be logged in to access this page", "danger")
+            return redirect(url_for("Home"))
+
 
 @app.route("/about")
 def about():
@@ -204,7 +215,9 @@ def import_csv():
 def imports(import_id):
     imported = Import.query.get_or_404(import_id)
     post = imported
-    return render_template('imports.html', title='Imported File Mgmnt', imported=imported)
+    datafile = os.path.join(app.config['UPLOAD_FOLDER'], imported.filename)
+    csv_data = pp_imported_csv(datafile)
+    return render_template('imports.html', title='Imported File Mgmnt', imported=imported, df=csv_data)
 
 
 @app.route("/imports/<int:post_id>/delete", methods=['POST'])

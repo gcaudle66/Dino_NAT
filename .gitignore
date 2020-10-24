@@ -1,0 +1,6 @@
+# Specify filepatterns you want git to ignore.
+.misc/*
+*.ipynb
+webui/__pycache__/*
+.venv/*
+*.\.pyc
