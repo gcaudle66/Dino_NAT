@@ -48,12 +48,15 @@
 {% if current_user.is_authenticated %}
 <div class="fixed-bottom">
   <div class="collapse" id="navbarToggleExternalContent">
-    <div class="bg-light p-4">
+    <div class="bg-steel p-4">
       <h5 class="text-white h4">Collapsed content</h5>
       <span class="text-muted">Toggleable via the navbar brand.</span>
     </div>
   </div>
   <nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand mr-4 text-muted href="#">Lets Automate!</a>
+      <small class="text-muted">automation tools</small>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -73,9 +76,9 @@
     {% endwith %}
     {% block content %}{% endblock %}
     </div>
+    {% if current_user.not_authenticated %}
     <div class="col-md-4">
       <div class="content-section">
-        <h3>Shall We??</h3>
 	<span class='text-muted'>Intent Based Workflows</span>
 		<small class="text-muted">for IOS-XE Wireless Platform</small>
           <ul class="list-group">
@@ -84,7 +87,6 @@
 	     <li class="list-group-item list-group-item-light">DNA-C Flows</li>
 	      <li class="list-group-item list-group-item-light">Latest Posts</li>
             <li class="list-group-item list-group-item-light">Announcements</li>
-
 	    <li class="list-group-item list-group-item-light">About | Contact
 	    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M15.354 2.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L8 9.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
@@ -97,6 +99,7 @@
     </div>
   </div>
 </main>
+{% endif %}
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

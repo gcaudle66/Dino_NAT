@@ -8,10 +8,11 @@ csv_dir = "webui/uploads/"
 templates_dir = "templates/"
 discards_errs = []
 
+
 def mine_cwd_csv():
-    print("-------------------------------------------\n" \
-      "Scanning current directory for CSV files...\n" \
-      "-------------------------------------------\n")
+    print("-------------------------------------------\n"
+          "Scanning current directory for CSV files...\n"
+          "-------------------------------------------\n")
     with os.scandir(path=csv_dir) as it:
         file_list = []
         for entry in it:
@@ -21,13 +22,14 @@ def mine_cwd_csv():
         print(f"Located {file_len} CSV files.")
         return importCSV(file_list)
 
+
 def importCSV(file_list):
     """ Choose CSV file to import  that was found in local \n""" \
-    """ directory.                                         \n"""
-    print("-------------------------------------------\n" \
-          "The files found are listed below.          \n" \
-          "Please select a number to select the file \n" \
-          "to import in.                              \n" \
+        """ directory.                                         \n"""
+    print("-------------------------------------------\n"
+          "The files found are listed below.          \n"
+          "Please select a number to select the file \n"
+          "to import in.                              \n"
           "-------------------------------------------\n")
     index = 0
     choice = 0
@@ -42,11 +44,12 @@ def importCSV(file_list):
     csv_choice = csv_dir + choices_list[choice]
     return parseCSV(csv_choice)
 
+
 def parseCSV(csv_choice):
     """ Here we will parse through the CSV that was imported \n""" \
-    """ using a TextFSM template that looks for only certain \n""" \
-    """ fields in the CSV. These fields are defined in the   \n""" \
-    """ below mentioned template variable                    \n"""
+        """ using a TextFSM template that looks for only certain \n""" \
+        """ fields in the CSV. These fields are defined in the   \n""" \
+        """ below mentioned template variable                    \n"""
     with open("templates/cisco_ap_from_csv_template-v3.textfsm") as template:
         results_template = textfsm.TextFSM(template)
         content2parse = open(csv_choice)
@@ -56,12 +59,13 @@ def parseCSV(csv_choice):
         except textfsm.TextFSMError as err:
             print(err.error)
         else:
-            return formatMacs(parsedCSV_results) #newLower_list(parsedCSV_results)
+            # newLower_list(parsedCSV_results)
+            return formatMacs(parsedCSV_results)
 
 
 def newLower_list(content):
     """ Converts any MAC address fields to lowercase \n""" \
-    """ Converts AP names fields to lowercase        \n"""
+        """ Converts AP names fields to lowercase        \n"""
     output = []
     for entry in range(len(content)):
         entry = content.pop()
@@ -74,23 +78,23 @@ def newLower_list(content):
 
 def formatMacs(content):
     """ here is where it gets fun. This function takes data from      \n""" \
-    """ the imported CSV list where MAC addresses may not be in       \n""" \
-    """ the correct format of xxx.xxx.xxxx and removes any existing   \n""" \
-    """ delimeters, checks to make sure there are no more than 12 hex \n""" \
-    """ characters, and if no error is present, rebuilds them into    \n""" \
-    """ the correct xxxx.xxxx.xxxx format. If any error is raised     \n""" \
-    """ during the process, that entry is ignored.                    \n"""
-    print("-------------------------------------------\n" \
-          "Normalizing MAC Addresses found in CSV     \n" \
-          "All MACs will be set to lowercase and then \n" \
-          "checked against REGEX to make sute they are\n" \
-          "in format xxxx.xxxx.xxxx before proceeding \n" \
+        """ the imported CSV list where MAC addresses may not be in       \n""" \
+        """ the correct format of xxx.xxx.xxxx and removes any existing   \n""" \
+        """ delimeters, checks to make sure there are no more than 12 hex \n""" \
+        """ characters, and if no error is present, rebuilds them into    \n""" \
+        """ the correct xxxx.xxxx.xxxx format. If any error is raised     \n""" \
+        """ during the process, that entry is ignored.                    \n"""
+    print("-------------------------------------------\n"
+          "Normalizing MAC Addresses found in CSV     \n"
+          "All MACs will be set to lowercase and then \n"
+          "checked against REGEX to make sute they are\n"
+          "in format xxxx.xxxx.xxxx before proceeding \n"
           "-------------------------------------------\n")
     import re
     re_fmt = '[a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]\.[a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]\.[a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]'
 #    re_fmt = '^[a-fA-F0-9]{4}\.[a-fA-F0-9]{4}\.[a-fA-F0-9]{4}\b'
     final_CSVresults = []
-    discards_errs = [] 
+    discards_errs = []
     bad_chars = [":", "."]
     for entry in range(len(content)):
         entry = content.pop()
@@ -103,13 +107,10 @@ def formatMacs(content):
                 mac = mac.replace(i, "")
             print(f"Removing seperators: {mac}")
             if len(mac) > 12:
-                err = "*********************************************************\n" \
-                    "* Houston, we have a problem!                           \n" \
-                    "* ERROR: Import error occured while parsing             \n" \
-                    "* MAC Address " + mac + ".More than 12 characters present\n" \
-                    "* in MAC.  Logging, discarding this entry and moving on!\n" \
-                    "*********************************************************"
-                discard = {"mac": mac,"error":  err}
+                err = "Error: More than 12 characters present in MAC."
+                print(
+                    f"{err} \n MAC ADDRESS: {mac} \n Logging it and discarding this entry!")
+                discard = {"AP MAC": mac, "Error":  err}
                 discards_errs.append(discard)
             else:
                 new_mac = mac[:4] + "." + mac[4:8] + "." + mac[8:12]
@@ -119,18 +120,15 @@ def formatMacs(content):
                     new_entry = [entry[0], new_mac]
                     final_CSVresults.append(new_entry)
                 else:
-                    exp_err = "*************************************\n"
-                    "* Houston, we have a problem!                           *\n"
-                    "* ERROR: Unable to normalize MAC Address:               *\n"
-                    f"* {new_mac}       Possible Non-Hex Character in MAC    *\n"
-                    "* Logging, discarding this entry and moving on!         *\n"
-                    "********************************************************"
-                    discard = {"mac": new_mac,"error":  exp_err}
+                    err = "Error: Unable to normalize MAC Address."
+                    print(f"MAC ADDRESS: {new_mac} \n Possible Non-Hex Character in MAC.\n"
+                          "Logging, discarding this entry and moving on!")
+                    discard = {"AP MAC": new_mac, "Error": err}
                     discards_errs.append(discard)
 
-    print("*********************************************************");
-    print("* The following entries were found in the imported CSV  *");
-    print("*********************************************************");
+    print("*********************************************************")
+    print("* The following entries were found in the imported CSV  *")
+    print("*********************************************************")
     for row in range(len(final_CSVresults)):
         print(final_CSVresults[row], sep="\n")
     return final_CSVresults, discards_errs

@@ -68,6 +68,7 @@ def active_dataset(import_id):
         parsedCSV_results = mine_csv(import_path)
         final_CSVresults = format_csv(parsedCSV_results[0])
         result = pp_formatted_csv(final_CSVresults[0])
+
         return render_template('active.html', title='Active DataSet File', results=result, active=active_dataset_info)
     else:
         flash("You must be logged in to access this page", "danger")
