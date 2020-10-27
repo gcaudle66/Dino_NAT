@@ -123,7 +123,7 @@ def formatMacs(content):
                     err = "Error: Unable to normalize MAC Address."
                     print(f"MAC ADDRESS: {new_mac} \n Possible Non-Hex Character in MAC.\n"
                           "Logging, discarding this entry and moving on!")
-                    discard = {"AP MAC": new_mac, "Error": err}
+                    discard = {"AP MAC Address": new_mac, "Error": err}
                     discards_errs.append(discard)
 
     print("*********************************************************")

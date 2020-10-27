@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from webui.models import User
 
@@ -68,7 +68,42 @@ class PostForm(FlaskForm):
 
 
 class ImportCSV(FlaskForm):
-    csv = FileField('Import CSV of Access Point Descriptors',
+    csv = FileField('Import CSV Containing Access Point Descriptors',
                     validators=[FileAllowed(['csv'])])
     description = TextAreaField("Description:", validators=[DataRequired()])
     submit = SubmitField('Import')
+
+
+class SiteForm(FlaskForm):
+    sf_cust_name = StringField(
+        'SalesForce Cust Name', validators=[DataRequired()])
+    sf_cust_id = StringField('SalesForce Cust ID', validators=[DataRequired()])
+    sitename = StringField('New Site Name', validators=[DataRequired()])
+    location = StringField('Location-City,ST Zip', validators=[DataRequired()])
+    dnac_site = BooleanField('Mirroring a DNAC Site?')
+    dnac_site_id = StringField('DNAC Site UUID', validators=[DataRequired()])
+    dnac_site_type = StringField(
+        'DNAC Site Type-Area,Build,Floor', validators=[DataRequired()])
+    dnac_parentId = StringField(
+        "DNAC Parent Site's UUID", validators=[DataRequired()])
+    dnacSiteNameHierarchy = StringField(
+        'DNAC Hierarchy of all Upper UUIDs', validators=[DataRequired()])
+    submit = SubmitField("Build It!")
+
+
+SITE_CHOICES = ["Test_Site12"]
+DTYPE_CHOICES = ["9800WLC"]
+
+
+class DeviceForm(FlaskForm):
+    device_name = StringField('Device Name', validators=[DataRequired()])
+    device_type = SelectField(label='Device Type', choices=DTYPE_CHOICES)
+    device_host_ip = StringField(
+        'Hostname/IP', validators=[DataRequired(), Length(min=10, max=50)])
+    device_user = StringField('Device Admin Username',
+                              validators=[DataRequired()])
+    device_pass = PasswordField('Device Password', validators=[DataRequired()])
+    content = TextAreaField("Description/Notes (optional):")
+    site_id = SelectField(label="Select Site for Device",
+                          choices=[SITE_CHOICES])
+    submit = SubmitField('Create!')

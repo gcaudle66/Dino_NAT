@@ -1,25 +1,35 @@
 import os
 import secrets
+import logging
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort, send_from_directory
 from flask_table import Table, Col
-from webui.data_print import pp_imported_csv, pp_formatted_csv
+from webui.data_print import pp_imported_csv, pp_formatted_csv, pp_err_imported_csv
 from webui import app, db, bcrypt
-from webui.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ImportCSV
+from webui.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, ImportCSV, DeviceForm, SiteForm
 from webui.models import User, Post, Import, Device, Site
 import mining_csv
 from flask_login import login_user, current_user, logout_user, login_required
+from logbug import dino_debug
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s:%(name)s:%(message)s')
+file_handler = logging.FileHandler(f'dino_{logger}_debug.log')
+file_handler.setLevel(logging.ERROR)
+file_handler.setFormatter(formatter)
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+logger.addHandler(stream_handler)
+import randfacts
 
 
 @app.route("/")
 @app.route("/home")
 def home():
-    if current_user.is_authenticated:
-        posts = Post.query.all()
-    else:
-        #page = request.args.get('page', 1, type=int)
-        posts = Post.query.all()
-    return render_template('home.html', title="Home", posts=posts)
+    randomf = randfacts.getFact()
+    return render_template('home.html', title="Home", randomf=randomf)
 
 
 @app.route("/dashboard")
@@ -66,10 +76,13 @@ def active_dataset(import_id):
         import_path = os.path.join(
             app.config['UPLOAD_FOLDER'], active_dataset_file.filename)
         parsedCSV_results = mine_csv(import_path)
-        final_CSVresults = format_csv(parsedCSV_results[0])
-        result = pp_formatted_csv(final_CSVresults[0])
-
-        return render_template('active.html', title='Active DataSet File', results=result, active=active_dataset_info)
+        # final_CSVresults = format_csv(parsedCSV_results[0])
+        print(f"finalCSV index 0 : \n {parsedCSV_results[0]}")
+        print(f"finalCSV Err :index 1 : \n {parsedCSV_results[1]}")
+        result = pp_formatted_csv(parsedCSV_results[0])
+        err_result = pp_err_imported_csv(parsedCSV_results[1])
+        print(err_result)
+        return render_template('active.html', title='Active DataSet File', results=result, active=active_dataset_info, err_results=err_result)
     else:
         flash("You must be logged in to access this page", "danger")
         return redirect(url_for("Home"))
@@ -104,6 +117,22 @@ def register():
         flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route("/device/new", methods=['GET', 'POST'])
+def create_device():
+    if current_user.is_authenticated:
+        form = DeviceForm()
+        if form.validate_on_submit():
+            hashed_password = bcrypt.generate_password_hash(
+                form.device_password.data).decode('utf-8')
+            device = Device(device_name=form.device_name.data, device_type=form.device_type.data, device_host_ip=form.device_host_ip.data, device_user=form.device_user.data,
+                            device_pass=hashed_password, content=form.content.data, site_id=form.site_id.data, date_posted=form.date_posted.data, user_id=current_user.user_id)
+            db.session.add(device)
+            db.session.commit()
+            flash('Your account has been created! You are now able to log in', 'success')
+            return redirect(url_for('dashboard'))
+    return render_template('create_device.html', title='New Site', form=form)
 
 
 @app.route("/login", methods=['GET', 'POST'])

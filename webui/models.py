@@ -65,16 +65,20 @@ class Device(db.Model):
 
 class Site(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    sf_cust_name = db.Column(db.String(120), nullable=True)
+    sf_cust_id = db.Column(db.String(120), nullable=True)
     sitename = db.Column(db.String(30), unique=True, nullable=False)
     location = db.Column(db.String(120), nullable=True)
-    dnac_site = db.Column(db.Boolean(), nullable=True)
-    device_user = db.Column(
-        db.String(20), nullable=False, default='default.jpg')
-    device_pass = db.Column(db.String(60), nullable=False)
-    devices = db.relationship('Device', backref='device', lazy=True)
+    dnac_site = db.Column(db.Boolean(), nullable=False)
+    dnac_site_id = db.Column(db.String(120), nullable=True)
+    dnac_site_type = db.Column(db.String(15), nullable=True)
+    dnac_parentId = db.Column(db.String(120), nullable=True)
+    dnacSiteNameHierarchy = db.Column(db.String(250), nullable=True)
+    devices = db.Column(db.Integer, db.ForeignKey('device.id'), nullable=True)
     created_by = db.Column(
         db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # run_history = db.Column(db.Integer, db.ForeignKey('run.id'), nullable=True)
 
     def __repr__(self):
         # , '{self.email}', '{self.image_file}', '{self.imports}')"
-        return Site(f"{self.sitename}")
+        return Site(f"{self.sitename}", Site(f"{self.devices}"), Site(f"{self.run_history}"))

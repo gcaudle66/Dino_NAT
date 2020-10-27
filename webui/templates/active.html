@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="row">
+<!-- <div class="row">
   <div class="col-4">
     <div class="list-group" id="list-tab" role="tablist">
       <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Imported File ID</a>
@@ -17,12 +17,28 @@
       <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">(Rows/Columns)<p>{{ results.shape }}</p></div>
     </div>
   </div>
-</div>
-<div class="container">
-    <div>
+</div> -->
+    <div class="small content-section">
+    <p class="h3">
+        Review and Validate
+        <small class="text-muted"> imported dataset values</small>
+    </p>
     <table class="table table-striped">
             {% include 'data.html' %}
     </table>
+</div>
+    <div class="small content-section">
+    <div>
+            <p class="display-4"><em>Errors: {{ err_results|length }} </p>
+                <small class="text-muted"></small></em>
+                <p class="small text-muted">**Any errors listed below encountered when normalizing the data resulted in the entries removed from the dataset. Edit original CSV and re-import to resolve, otherwise you may continue.
+                </p>
+        </p>
+    </div>
+            <table class="table table-danger table-striped">
+                <thead class="small">
+            {% include 'err_data.html' %}
+            </table>
 </div>
 </div>
 {% endblock content %}
