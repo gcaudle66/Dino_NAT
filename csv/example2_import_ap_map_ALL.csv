@@ -1,8 +1,0 @@
-AP Name,AP MAC Address,Policy Tag Name,Site Tag Name,RF Tag Name,Reboot,Default
-AP.2,683b:78:2b:o8:b2,test2-pol-tag,test2-site-tag,rf-2tag
-AP22,78bc.1ab3.c8fc,test-pol-tag,test-site-tag,test-rf-tag
-AP222.AP19,78bc.1adb.c744,test-pol-tag,test-site-tag,test-rf-tag
-AP234.AP11,5c5a.c7f0.7716,test2-pol-tag,test2-site-tag,test2-rf-tag
-Tattooine.Icecream.shop,5c5a.c7f0.76f2,test2-pol-tag,test2-site-tag,2-rf-tag
-AP_a453.0eb4.b040,a453.0eb4.b040,test2-pol-tag,test2-site-tag,test2-rf-tag
-
