@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+{% for device in devices %}
+	<article class="media content-section">
+		<h4>="Devices in Inventory"</h4>
+		<div class="container-fluid">
+			<div class="card-columns">
+				<div class="card">
+					<div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">{{ device.device_name }}</h6>
+    <p class="card-text">{{ device_type }}</p>
+    <p class="caed-text">{{ device_host_ip}}</p>
+    </div>
+</div>
+</div>
+</div>
+</article>
+{% endfor %}
+{% endblock content %}
+
+

@@ -13,5 +13,13 @@
 <!--             <p class="article-content">{{ import.filename }}</p>-->
           </div>
         </article>
-    {% endfor %}
+{% endfor %}
+<article class="media content-section">
+          <div class="media-body">
+            <p class="h4">Active Dataset Results:</p>
+            <div class="article-metadata">
+              {% include 'data.html' %}
+            </div>
+          </div>
+        </article>
 {% endblock content %}

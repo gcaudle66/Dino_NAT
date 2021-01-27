@@ -1,6 +1,8 @@
 import os
 import secrets
 import logging
+import time
+import randfacts
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort, send_from_directory
 from flask_table import Table, Col
@@ -15,14 +17,20 @@ from logbug import dino_debug
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s:%(name)s:%(message)s')
-file_handler = logging.FileHandler(f'dino_{logger}_debug.log')
+file_handler = logging.FileHandler('dino_debug.log')
 file_handler.setLevel(logging.ERROR)
 file_handler.setFormatter(formatter)
 stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
-import randfacts
+
+global parsedCSV_results
+parsedCSV_results = []
+global active_dataset_id
+active_dataset_id = int
+global active_dataset_results
+active_dataset_results = []
 
 
 @app.route("/")
@@ -30,6 +38,17 @@ import randfacts
 def home():
     randomf = randfacts.getFact()
     return render_template('home.html', title="Home", randomf=randomf)
+
+
+@app.route("/devices")
+@login_required
+def devices():
+    if current_user.is_authenticated:
+        # page = request.args.get('page', 1, type=int)
+        devices = Device.query.order_by(Device.device_name)
+        return render_template("devices.html", title="Devices Dashboard", devices=devices)
+    else:
+        return redirect(url_for("home"))
 
 
 @app.route("/dashboard")
@@ -40,7 +59,7 @@ def dashboard():
         page = request.args.get('page', 1, type=int)
         posts = Post.query.order_by(
             Post.date_posted.desc()).paginate(page=page, per_page=5)
-        return render_template("dashboard1.html", title="User Dashboard", imports=imports)
+        return render_template("dashboard1.html", title="User Dashboard", imports=imports, dataset_results=active_dataset_results)
     else:
         return redirect(url_for("home"))
 
@@ -79,9 +98,13 @@ def active_dataset(import_id):
         # final_CSVresults = format_csv(parsedCSV_results[0])
         print(f"finalCSV index 0 : \n {parsedCSV_results[0]}")
         print(f"finalCSV Err :index 1 : \n {parsedCSV_results[1]}")
-        result = pp_formatted_csv(parsedCSV_results[0])
-        err_result = pp_err_imported_csv(parsedCSV_results[1])
+        result = pp_formatted_csv(
+            parsedCSV_results[0], f'active_dataset{import_id}')
+        err_result = pp_err_imported_csv(
+            parsedCSV_results[1], f'active_dataset{import_id}')
         print(err_result)
+        active_dataset_id = str('import_id')
+        active_dataset_results = result
         return render_template('active.html', title='Active DataSet File', results=result, active=active_dataset_info, err_results=err_result)
     else:
         flash("You must be logged in to access this page", "danger")
@@ -194,10 +217,8 @@ def account():
                            image_file=image_file, form=form)
 
 
-parsedCSV_results = []
-
-
 def mine_csv(csv_file):
+    parsedCSV_results = []
     parsedCSV_results = mining_csv.parseCSV(csv_file)
     return parsedCSV_results
 
@@ -261,7 +282,7 @@ def imports(import_id):
     imported = Import.query.get_or_404(import_id)
     post = imported
     datafile = os.path.join(app.config['UPLOAD_FOLDER'], imported.filename)
-    csv_data = pp_imported_csv(datafile)
+    csv_data = pp_imported_csv(datafile, 'data')
     return render_template('imports.html', title='Imported File Mgmnt', imported=imported, df=csv_data)
 
 

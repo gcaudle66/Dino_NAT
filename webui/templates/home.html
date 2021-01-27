@@ -1,17 +1,13 @@
 {% extends "layout.html" %}
-<div class="container">
-  <div class="row justify-content-md-left">
-  <div class="col-md-4">
-        <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-            <p class="display-4 text-muted">Welcome</p>
-          </div>
-      </div>
-        </article>
-    </div>
+{% block content %}
+<div class="container-fluid">
+<div class="card">
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">Random Fact</h6>
+    {{ randomf }}
+  </div>
 </div>
 </div>
-
+{% endblock content %}
 
 
