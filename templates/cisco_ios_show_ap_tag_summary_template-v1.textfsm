@@ -1,0 +1,11 @@
+Value AP_NAME (.+)
+Value MAC_ADDRESS ([a-fA-F0-9:\.]{12,17})
+Value TAG_SITE (.+)
+Value TAG_RF (.+)
+Value TAG_POLICY (.+)
+Value MISCONFIG (Yes|No)
+
+Start
+	^${AP_NAME}\b\s+\b${MAC_ADDRESS}\b\s+\b${TAG_SITE}\b\s+\b${TAG_POLICY}\b\s+\b${TAG_RF}\b\s+\b${MISCONFIG} -> Record
+
+

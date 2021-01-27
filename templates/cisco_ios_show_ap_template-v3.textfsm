@@ -1,8 +1,6 @@
 Value AP_NAME (.+)
 Value MAC_ADDRESS ([a-fA-F0-9:\.]{12,17})
 Value IP_ADD (.+)
-Value IP_NM (.+)
-Value IP_GW (.+)
 Value AP_LOC (.+)
 Value TAG_SITE (.+)
 Value TAG_RF (.+)
