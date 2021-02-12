@@ -50,7 +50,7 @@ def parseCSV(csv_choice):
         """ using a TextFSM template that looks for only certain \n""" \
         """ fields in the CSV. These fields are defined in the   \n""" \
         """ below mentioned template variable                    \n"""
-    with open("templates/cisco_ap_from_csv_template-v3.textfsm") as template:
+    with open("templates/cisco_ap_from_csv_template-v35.textfsm") as template:
         results_template = textfsm.TextFSM(template)
         content2parse = open(csv_choice)
         content = content2parse.read()

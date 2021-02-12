@@ -17,9 +17,10 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
     imports = db.relationship('Import', backref='author', lazy=True)
+    sites = db.relationship('Site', backref='site_managed', lazy=True)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.imports}')"
+        return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.imports}', '{self.sites}')"
 
 
 class Post(db.Model):
@@ -49,12 +50,12 @@ class Import(db.Model):
 class Device(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     device_name = db.Column(db.String(100), nullable=False)
-    device_type = db.Column(db.String(100), nullable=False)
+    device_type = db.Column(db.String(100), nullable=True)
     device_host_ip = db.Column(db.String(50), nullable=False)
     device_user = db.Column(db.String(20), nullable=True)
     device_pass = db.Column(db.String(60), nullable=True)
     content = db.Column(db.Text, nullable=True)
-    site_id = db.Column(db.Integer, db.ForeignKey('site.id'), nullable=False)
+    site_id = db.Column(db.Integer, db.ForeignKey('site.id'), nullable=True)
     date_posted = db.Column(db.DateTime, nullable=False,
                             default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -74,7 +75,7 @@ class Site(db.Model):
     dnac_site_type = db.Column(db.String(15), nullable=True)
     dnac_parentId = db.Column(db.String(120), nullable=True)
     dnacSiteNameHierarchy = db.Column(db.String(250), nullable=True)
-    devices = db.Column(db.Integer, db.ForeignKey('device.id'), nullable=True)
+    # devices = db.Column(db.Integer, db.ForeignKey('device.id'), nullable=True)
     created_by = db.Column(
         db.Integer, db.ForeignKey('user.id'), nullable=False)
     # run_history = db.Column(db.Integer, db.ForeignKey('run.id'), nullable=True)

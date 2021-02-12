@@ -43,11 +43,28 @@
   </nav>
 </header>
 {% if current_user.is_authenticated %}
-<div class="fixed-bottom">
+<div class="pos-f-t fixed-bottom">
   <div class="collapse" id="navbarToggleExternalContent">
-    <div class="bg-steel p-4">
-      <h5 class="text-white h4">Collapsed content</h5>
-      <span class="text-muted">Toggleable via the navbar brand.</span>
+    <div class="bg-dark p-4">
+      <h5 class="text-white h4">Shall We?</h5>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link text-white" href="{{ url_for("dashboard") }}">User Dashboard <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link text-white" href="{{ url_for("import_csv") }}">Import CSV Dataset <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{{ url_for("create_device") }}">Create Device</a><a class="nav-link text-white" href="{{ url_for("devices") }}">List Devices</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled text-white" href="#" tabindex="-1" aria-disabled="true">Create Site</a>
+      </li>
+       <li class="nav-item">
+        <a class="nav-link text-white" href="{{ url_for("flows") }}">Flow Selector</a>
+      </li>
+    </ul>
+      <span class="text-muted">Action Menu for Admins. Start with an Import</span>
     </div>
   </div>
   <nav class="navbar navbar-dark bg-dark">
@@ -68,10 +85,11 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% endblock %}
     </div>
     <div class="col-md-4">
-      <div class="content-section">
+      <!-- <div class="content-section">
         <h3>Shall We??</h3>
 	<span class='text-muted'>Intent Based Workflows</span>
 		<small class="text-muted">for IOS-XE Wireless Platform</small>
@@ -92,7 +110,7 @@
         </p>
       </div>
     </div>
-  </div>
+  </div> -->
 </main>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

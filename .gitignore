@@ -1,9 +1,17 @@
 # Specify filepatterns you want git to ignore.
-.misc/*
-*.ipynb
+*.pyc
+*~
+v/
+.misc/
+webui/templates/uploads/
+webui/uploads/
+webui/static/profile_pics/
+*.log
+*.sublime-project
 webui/__pycache__/*
 .venv/*
 *.pyc
 *.txt
 .viminfo
 webui/__pycache__/*.*
+.misc

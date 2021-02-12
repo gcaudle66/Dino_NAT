@@ -25,12 +25,12 @@ stream_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
 
-global parsedCSV_results
+# global parsedCSV_results
 parsedCSV_results = []
-global active_dataset_id
-active_dataset_id = int
-global active_dataset_results
-active_dataset_results = []
+# global active_dataset_id
+# active_dataset_id = int
+# global active_dataset_results
+
 
 
 @app.route("/")
@@ -59,7 +59,7 @@ def dashboard():
         page = request.args.get('page', 1, type=int)
         posts = Post.query.order_by(
             Post.date_posted.desc()).paginate(page=page, per_page=5)
-        return render_template("dashboard1.html", title="User Dashboard", imports=imports, dataset_results=active_dataset_results)
+        return render_template("dashboard1.html", title="User Dashboard", imports=imports)
     else:
         return redirect(url_for("home"))
 
@@ -75,7 +75,7 @@ active_dataset_info = {
     "import_author": "null"
 }
 
-active_dataset_file = "null"
+# active_dataset_file = "null"
 #@set_active_dataset_label(label)
 
 
@@ -104,23 +104,42 @@ def active_dataset(import_id):
             parsedCSV_results[1], f'active_dataset{import_id}')
         print(err_result)
         active_dataset_id = str('import_id')
-        active_dataset_results = result
+        # active_dataset_results = result
         return render_template('active.html', title='Active DataSet File', results=result, active=active_dataset_info, err_results=err_result)
     else:
         flash("You must be logged in to access this page", "danger")
         return redirect(url_for("Home"))
 
 
-@app.route("/flows/ap-renamerer")
+@login_required
+@app.route("/flows/ap-renamerer", methods=['GET'])
 def flow_ap_renamerer():
     if current_user.is_authenticated:
-        return render_template("ap_renamerer.html")
+        return render_template("flow_ap_renamerer.html", title="Dino Flow-AP Renamerer")
     else:
         flash("You must be logged in to access this page", "danger")
-        return redirect(url_for("Home"))
+        return redirect(url_for("home"))
 
 
-@app.route("/about")
+@login_required
+@app.route("/flows/flow-ap-tagging", methods=['GET'])
+def flow_ap_tagging():
+    if current_user.is_authenticated:
+        return render_template("flow_ap_tagging.html", title="Dino Flow-AP Tagging Maintenance")
+    else:
+        flash("You must be logged in to access this page", "danger")
+        return redirect(url_for("home"))
+
+@app.route("/flows", methods=['GET'])
+def flows():
+    if current_user.is_authenticated:
+        return render_template("flows.html", title="IBN Flows for You!", active=active_dataset_info)
+    else:
+        flash("You must be logged in to access this page", "danger")
+        return redirect(url_for("home"))
+
+
+@app.route("/about", methods=['GET'])
 def about():
     return render_template("about.html", title="About")
 
@@ -153,9 +172,9 @@ def create_device():
                             device_pass=hashed_password, content=form.content.data, site_id=form.site_id.data, date_posted=form.date_posted.data, user_id=current_user.user_id)
             db.session.add(device)
             db.session.commit()
-            flash('Your account has been created! You are now able to log in', 'success')
-            return redirect(url_for('dashboard'))
-    return render_template('create_device.html', title='New Site', form=form)
+            flash('Your device has been created! You are now able view it', 'success')
+            return redirect(url_for('devices'))
+    return render_template('create_device.html', title='New Device', form=form)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -223,9 +242,9 @@ def mine_csv(csv_file):
     return parsedCSV_results
 
 
-def format_csv(parsedCSV_results):
-    final_CSVresults = mining_csv.formatMacs(parsedCSV_results)
-    return final_CSVresults
+# def format_csv(parsedCSV_results):
+#     final_CSVresults = mining_csv.formatMacs(parsedCSV_results)
+#     return final_CSVresults
 
 
 def save_csv(import_csv):
@@ -282,7 +301,7 @@ def imports(import_id):
     imported = Import.query.get_or_404(import_id)
     post = imported
     datafile = os.path.join(app.config['UPLOAD_FOLDER'], imported.filename)
-    csv_data = pp_imported_csv(datafile, 'data')
+    csv_data = pp_imported_csv(datafile)
     return render_template('imports.html', title='Imported File Mgmnt', imported=imported, df=csv_data)
 
 

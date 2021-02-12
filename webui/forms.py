@@ -91,7 +91,7 @@ class SiteForm(FlaskForm):
     submit = SubmitField("Build It!")
 
 
-SITE_CHOICES = ["Test_Site12"]
+SITE_CHOICES = []
 DTYPE_CHOICES = ["9800WLC"]
 
 

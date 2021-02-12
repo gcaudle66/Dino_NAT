@@ -1,0 +1,11 @@
+Value AP_NAME (.+?)
+Value MAC_ADDRESS (.+?)
+Value PRI_CNTR (.+?)
+Value TAG_POLICY (.+?)
+Value TAG_SITE (.+?)
+Value TAG_RF (.+?)
+Value DEFAULT (null)
+
+Start
+ ^AP Name,AP MAC Address,Primary Controller,Policy Tag Name,Site Tag Name,RF Tag Name,Default Flag -> Next
+ ^${AP_NAME},${MAC_ADDRESS},${PRI_CNTR},${TAG_POLICY},${TAG_SITE},\b${TAG_RF},\b${DEFAULT} -> Record

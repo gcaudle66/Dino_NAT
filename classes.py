@@ -5,6 +5,7 @@ class Flow:
         self.when = when
         self.where = where
         self.why = why
+        self.how = how
 
 
 class WLCinfo:
@@ -35,6 +36,12 @@ class WLCinfo:
             self.entry = [key, value]
             self.wlc_ap_inventory.append(self.entry)
 
+    def print_inventory(self):
+        for ap in self.wlc_ap_inventory:
+            for key,value in ap.items():
+                print(f'{key} : {value}')
+        print('-----')
+
 
 testwlc = WLCinfo('WLC-9800', '198.18.134.100', 'admin', 'C1sco12345')
 
@@ -50,17 +57,29 @@ class Ap:
         self.dnac_managed = False
         self.dnac_ip4_add = "unset"
         # Tags
-        self.tag_RF = ""
-        self.tag_Site = ""
-        self.tag_Policy
-
-    def status_flags(self, *args, **kwargs):
+        self.tag_rf = ""
+        self.tag_site = ""
+        self.tag_policy = ""
+        # Flags
         self.flag_isAlive = False
         self.flag_isRegistered = False
         self.flag_isModified = False
         self.flag_setReboot = False
         self.flag_setDefault = False
         self.flag_ackModified = False
+
+    def config_new_tags(self, **kwargs):
+        self.pending_tag_rf = ""
+        self.pending_tag_site = ""
+        self.pending_tag_policy = ""
+
+    def show_status_flags(self):
+        print(self.flag_isAlive,
+              self.flag_isRegistered,
+              self.flag_isModified,
+              self.flag_setReboot,
+              self.flag_setDefault,
+              self.flag_ackModified)
 
 
 class AcPo:
