@@ -12,11 +12,12 @@
             <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
           </div>
           <div>
-          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('active_dataset', import_id=imported.id) }}">Set Active</a>
+          <a class="btn btn-primary btn-sm mt-1 mb-1" href="{{ url_for('active_dataset', import_id=imported.id) }}">Set Active</a>
+          <p class="med text-muted" Set Active: Process/Prep CSV data for a Flow-Run including normalizing MAC addresses and look for any errors. After Processing, user is promted to validate data and if so, the Processed data will be set as the "Active Dataset" for use in the next Flow-Run.</p>
         {% endif %}
       </div>
-      <h2 class="article-title">{{ imported.filename }}</h2>
-      <p class="article-content">{{ imported.description }}</p>
+      <h5 class="article-title">{{ imported.filename }}</h5>
+      <p class="article-content">Description: {{ imported.description }}</p>
     </div>
   </article>
   <!-- Modal -->

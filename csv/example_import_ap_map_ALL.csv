@@ -1,9 +1,0 @@
-AP Name,AP MAC Address,Policy Tag Name,Site Tag Name,RF Tag Name,Reboot,Default
-NUTTER.BUTTER1,683b:78:2b:o8:b2,test-pol-tag,test-site-tag,rf-tag
-Oreo.Cookie2,78bc.1ab3.c8fc,test-pol-tag,test-site-tag,test-rf-tag
-Mars.Bar.AP19,78bc.1adb.c744,test-pol-tag,test-site-tag,test-rf-tag
-Baby.Ruth.AP11,5c5a.c7f0.7716,test-pol-tag,test-site-tag,test-rf-tag
-Hoth.Icecream.shop,5c5a.c7f0.76f2,test-pol-tag,test-site-tag,test-rf-tag
-AP_a453.0eb4.b040,a453.0eb4.b040,test-pol-tag,test-site-tag,test-rf-tag
-AP_a453.0edd.8f88,a453.0edd.8f88,test-pol-tag,test-site-tag,test-rf-tag
-AP_dc8c.372a.2e1e,dc8c.372a.2e1e,test-pol-tag,test-site-tag,test-rf-tag

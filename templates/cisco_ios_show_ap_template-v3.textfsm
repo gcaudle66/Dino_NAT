@@ -1,0 +1,34 @@
+Value AP_NAME (.+)
+Value MAC_ADDRESS ([a-fA-F0-9:\.]{12,17})
+Value IP_ADD (.+)
+Value AP_LOC (.+)
+Value TAG_SITE (.+)
+Value TAG_RF (.+)
+Value TAG_POLICY (.+)
+Value PRO_JOIN (.+)
+Value PRO_FLEX (.+)
+Value PRI_CNTR (.+)
+Value SEC_CNTR (.+)
+Value OPER_STAT (.+)
+Value ADMIN_STAT (.+)
+Value SER_NUM (.+)
+Value AP_MDL (.+)
+Value AP_UP_TIME (.+)
+
+Start
+	^Cisco\s+AP\s+Name\s+:\s${AP_NAME} -> Next
+	^MAC\sAddress\s+:\s${MAC_ADDRESS} -> Next
+	^IP\sAddress\s+:\s${IP_ADD} -> Next
+	^Cisco\sAP\sLocation\s+:\s${AP_LOC} -> Next
+	^Site\sTag\sName\s+:\s${TAG_SITE} -> Next
+	^RF\sTag\sName\s+:\s${TAG_RF} -> Next
+	^Policy\sTag\sName\s+:\s${TAG_POLICY} -> Next
+	^AP\sjoin\sProfile\s+:\s${PRO_JOIN} -> Next
+	^Flex\sProfile\s+:\s${PRO_FLEX} -> Next
+	^Primary\sCisco\sController\sIP\sAddress\s+:\s${PRI_CNTR} -> Next
+	^Secondary\sCisco\sController\sIP\sAddress\s+:\s${SEC_CNTR} -> Next
+	^Operation\sState\s+:\s${OPER_STAT} -> Next
+	^Administrative\sState\s+:\s${ADMIN_STAT} -> Next
+	^AP\sSerial\sNumber\s+:\s${SER_NUM} -> Next
+	^AP\sModel\s+:\s${AP_MDL} -> Next
+	^AP\sUp\sTime\s+:\s${AP_UP_TIME} -> Record

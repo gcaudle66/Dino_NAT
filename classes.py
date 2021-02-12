@@ -1,62 +1,94 @@
-class Intent:
-    """
-    A class to hold the Intent and the reasoning behind it.
-    Not only for logging....but for self sanity checks
-    # What: WHat is the intention of this motion? ("Ex..I need
-    to move all APs from building 3 to building 9. This involves
-    all APs with name prefix "ap-bldg3-" and WLC4 moving to WLC 7"
-    # Why: " Floor closed for remodel for +- 6 months"
-    # Then: What the state of the network looked like before any changes
-    # Now: What it looks like after the changes are applied.
-    Sanity chech at that point detemines rollback or continue.
-    This ensures the intent of the engineer and the logic ==
-    """
-    def __init__(self, what, why, then, now):
+class Flow:
+    def __init__(self, who, what, when, where, why):
+        self.who = who
         self.what = what
+        self.when = when
+        self.where = where
         self.why = why
-        self.then = then
-        self.now = now
+        self.how = how
 
 
+class WLCinfo:
+    def __init__(self, device_name, device_host_ip, device_user, device_pass):
+        self.device_name = device_name
+        self.device_host_ip = device_host_ip
+        self.device_user = device_user
+        self.device_pass = device_pass
 
-class DinoMenu:
-    def __init__(self, title, opts, *args, **kwargs):
-        self.title = title
-        self.menu_opts = opts
-        self.stc_opts = self.static_opts()
+    def output_args(self):
+        self.wlc_args_output = {
+            'device_name': self.device_name,
+            'device_host_ip': self.device_host_ip,
+            'device_user': self.device_user,
+            'device_pass': self.device_pass
+        }
+        return self.wlc_args_output
 
-    def static_opts(self):
-        stc_opts = {'Ctrl-C': 'Discard any Changes and Exit'}
+    def create_inventory(self, *args, **kwargs):
+        self.wlc_ap_inventory = []
+        self.entry = []
+        print('---args---')
+        for arg in args:
+            self.entry = arg
+            self.wlc_ap_inventory.append(self.entry)
+        print('---kwargs---')
+        for key, value in kwargs.items():
+            self.entry = [key, value]
+            self.wlc_ap_inventory.append(self.entry)
 
-    def list_opts(self):
-        """
-        Func to generate list of meu options provided
-        by a dict sent to class in format ...
-         { int: 'option title'} . Func will iterate
-         and list them
-        """
-        for key,value in self.menu_opts.items():
-            print("[{}] : {}".format(key, value))
-        for key, value in self.stc_opts.items():
-            print("[{}] : {}".format(key, value))
-    def basic_mFrame(self):
-        print("*********************************************************")
-        print("*                                                       *")
-        print("* Dino | Manually Helping You to Automate.              *")
-        print("*        Powered by Dino -ConneX-> System               *")
-        print("*                                                       *")
-        print("*********************************************************")
-        print(self.title)
-        print("*********************************************************")
-        self.list_opts()
+    def print_inventory(self):
+        for ap in self.wlc_ap_inventory:
+            for key,value in ap.items():
+                print(f'{key} : {value}')
+        print('-----')
+
+
+testwlc = WLCinfo('WLC-9800', '198.18.134.100', 'admin', 'C1sco12345')
+
+
+class Ap:
+    def __init__(self, apname, ethmac):
+        self.apname = apname
+        self.ethmac = ethmac
+        # Managed info
+        self.pri_cntr = ""
+        self.sec_cntr = ""
+        self.ip4_add = ""
+        self.dnac_managed = False
+        self.dnac_ip4_add = "unset"
+        # Tags
+        self.tag_rf = ""
+        self.tag_site = ""
+        self.tag_policy = ""
+        # Flags
+        self.flag_isAlive = False
+        self.flag_isRegistered = False
+        self.flag_isModified = False
+        self.flag_setReboot = False
+        self.flag_setDefault = False
+        self.flag_ackModified = False
+
+    def config_new_tags(self, **kwargs):
+        self.pending_tag_rf = ""
+        self.pending_tag_site = ""
+        self.pending_tag_policy = ""
+
+    def show_status_flags(self):
+        print(self.flag_isAlive,
+              self.flag_isRegistered,
+              self.flag_isModified,
+              self.flag_setReboot,
+              self.flag_setDefault,
+              self.flag_ackModified)
+
 
 class AcPo:
     """
     This class defines the access point and all of its glory...
     or at least all we are concerned about in this version of Dino
     """
-    
-    def __init__(self,apname, ethmac):
+
+    def __init__(self, apname, ethmac):
         self.apname = apname
         self.ethmac = ethmac
 
@@ -70,10 +102,12 @@ class AcPo:
         self.dnac_managed = False
         self.dnac_ip4_add = "unset"
         self.location = "default"
+
     def tag_mapping(self):
         self.tag_RF = ""
         self.tag_Site = ""
         self.tag_Policy = ""
+
     def status_flags(self, *args, **kwargs):
         """
         The below flags are various markers to set for
@@ -115,10 +149,11 @@ class AcPo:
         or another validation check...this app will
         error out and dump to a log "why".
         """
-        ## state_data is a dict containing all data stored for
-        ### object as gathered since last poll. This is "PRE" config
-        #### data for check
+        # state_data is a dict containing all data stored for
+        # object as gathered since last poll. This is "PRE" config
+        # data for check
         self.pre_state_data = {}
+
         def __check__(self):
             """
             AP's !! PRE modifaction !! data current state/config data stored
@@ -126,6 +161,7 @@ class AcPo:
             to the POST modification for "desired state" checks
             """
             self.pre_state_data
+
         def __update__(self):
             """
             Force polling of APs controller device for new state info
@@ -134,33 +170,27 @@ class AcPo:
 
 
 class ConnexList(object):
-	def __init__(self, match_list):
-		self.connexList = match_list
-		self.connexArgs = {}
-		self.sendCmds = []
-	def __enter__(self):
-		self.connexList = match_list.copy()
-		self.ConnexArgs = self.setConnArgs(self)
-		return self.connexList, ConnexArgs
-	def setConnArgs(self):
-		import getpass
-		self.connexArgs = {"ip": self.connexList[0]}
-		return self.connexArgs
-	def getConnArgs(self):
-		self.getConnArgs = print(self.connexArgs)
-	def getCmds(self):
-		self.sendCmds = ap_rename20.api_create_commands(connexList)
-		return self.sendCmds
-	def __exit__(self):
-		self.connexList.clear()
+    def __init__(self, match_list):
+        self.connexList = match_list
+        self.connexArgs = {}
+        self.sendCmds = []
 
-##########################  TEST BELOW HERE
-opts = {
-	1: "Bulk AP Rename for Multi-WLC, DNAC Managed Sites",
-	2: "Bulk AP Renamer Classic (v1.8) for Direct 1:1 WLC",
-	3: "Interact with DNAC APIs via -ConneX->API Utility"}
-title = "Dino DEV Test Menu Title"
+    def __enter__(self):
+        self.connexList = match_list.copy()
+        self.ConnexArgs = self.setConnArgs(self)
+        return self.connexList, ConnexArgs
 
-if __name__ == "__main__":
-    main_menu = DinoMenu(title, opts)
+    def setConnArgs(self):
+        import getpass
+        self.connexArgs = {"ip": self.connexList[0]}
+        return self.connexArgs
 
+    def getConnArgs(self):
+        self.getConnArgs = print(self.connexArgs)
+
+    def getCmds(self):
+        self.sendCmds = ap_rename20.api_create_commands(connexList)
+        return self.sendCmds
+
+    def __exit__(self):
+        self.connexList.clear()

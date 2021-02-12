@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+  <p class=md-2>
+    <h3>Intent Based Flows</h3>
+  </p>
+  <div class="md">
+  	<h5 class="text muted">Choose from the table below which flow matches your intent. You will
+  		be asked to also provide specifics regarding the 5 Big questons..."Who, What, When, Where and Why?!!"</h5>
+	<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Flow Name</th>
+      <th scope="col">Who</th>
+      <th scope="col">What</th>
+      <th scope="col">When</th>
+      <th scope="col">Where</th>
+      <th scope="col">Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td><a class="nav-item" href="{{ url_for("flow_ap_renamerer") }}">AP Renamerer</a></td>
+      <td>Devices Affected by Change</td>
+      <td>Access Points Names</td>
+      <td>Schedule or Now</td>
+      <td>Device locations and affected areas</td>
+      <td>Justify why this is being done</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>AP Tagging</td>
+      <td>Devices Affected by Change</td>
+      <td>Access Points Tags</td>
+      <td>Schedule or Now</td>
+      <td>Device locations and affected areas</td>
+      <td>Justify why this is being done</td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+{% for device in devices %}
+<div class="container-fluid">
+	<p class=md-2>
+		<h3>Devices in Inventory</h3>
+	</p>
+<div class="bg-dark p-4">
+			<div class="card-columns">
+				<div class="card p-3">
+					<div class="card-body">
+						<h4 class="card-title">{{ device.device_name }}</h4>
+						<li class="card-text text-muted">device_site: {{ device.device_site }}</li>
+						    <li class="card-text text-muted">device_host_ip: {{ device.device_host_ip }}</li>
+						        <li class="card-text text-muted">device_type: {{ device.device_type }}</li>
+						            <li class="card-text text-muted">device_user: {{ device.device_user }}</li>
+    						            <li class="card-text text-muted">date_posted: {{ device.date_posted }}</li>
+    						            <li class="card-text text-muted">posted by: {{ device.user_id }}</li>
+						                </div>
+						            </div>
+</div>
+</div>
+</div>
+{% endfor %}
+{% endblock content %}
+
+

@@ -1,23 +1,48 @@
 {% extends "layout.html" %}
 {% block content %}
-        <article class="media content-section">
-    {% for key,value in active.items() %}
-          <div class="media-body">
-            <div class="article-metadata">
-		    <a class="mr-4" "#">{{ key }} : {{ value }}</a>
-	    </div>
-    {% endfor %}    
-	</article>
-    <div class="container">
-            <article class="media content-section">
-	    {% for line in final_CSVresults %}
-          	<div class="media-body">
-            	<div class="article-metadata">
-			<a class="mr-2" "#">{{ line }}</a>
-	    </div>
-	  </div>
-	{% endfor %}
-	    </article>
+<!-- <div class="row">
+  <div class="col-4">
+    <div class="list-group" id="list-tab" role="tablist">
+      <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Imported File ID</a>
+      <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Import Filename</a>
+      <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Import Author and Info</a>
+      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Imported Rows/Columns</a>
     </div>
+  </div>
+  <div class="col-8">
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">{{ active["import_id"] }}</div>
+      <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">{{ active["import_filename"] }}</div>
+      <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">{{ active["import_author"] }}</div>
+      <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">(Rows/Columns)<p>{{ results.shape }}</p></div>
+    </div>
+  </div>
+</div> -->
+<div class="container-fluid">
+    <div class="med content-section">
+    <p class="h3">
+        Review and Validate
+        <small class="text-muted"> imported dataset values</small>
+    </p>
+    <table class="table table-striped">
+            {% include 'data.html' %}
+    </table>
+</div>
+    <div class="small content-section">
+    <div>
+            <p class="display-4"><em>Errors: {{ err_results|length }} </p>
+                <small class="text-muted"></small></em>
+                <p class="small text-muted">**Any errors listed below encountered when normalizing the data resulted in the entries removed from the dataset. Edit original CSV and re-import to resolve, otherwise you may continue.
+                </p>
+        </p>
+    </div>
+            <table class="table table-danger table-striped">
+                <thead class="small">
+                </thead>
+            {% include 'err_data.html' %}
+            </table>
+</div>
+</div>
+</div>
 {% endblock content %}
 

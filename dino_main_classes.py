@@ -1,9 +1,29 @@
+class Flow:
+    def __init__(self, who, what, when, where, why):
+        self.who = who
+        self.what = what
+        self.when = when
+        self.where = where
+        self.why = why
+
+
+class WLCinfo:
+    def __init__(self, device_name, device_host_ip, device_user, device_pass):
+        self.device_name = device_name
+        self.device_host_ip = device_host_ip
+        self.device_user = device_user
+        self.device_pass = device_pass
+
+    def wlc_inventory(self, *args, **kwargs):
+        self.wlc_ap_inventory = []
+
+
 class Ap:
-    def __init__(self,apname, ethmac):
+    def __init__(self, apname, ethmac):
         self.apname = apname
         self.ethmac = ethmac
 
-    def configure(self, *args, **kwargs):
+    def configure(self, **kwargs):
         """
         Config in this Method defines the current state of AP config.
         """
@@ -12,10 +32,12 @@ class Ap:
         self.ip4_add = ""
         self.dnac_managed = False
         self.dnac_ip4_add = "unset"
+
     def tag_mapping(self):
         self.tag_RF = ""
         self.tag_Site = ""
         self.tag_Policy
+
     def status_flags(self, *args, **kwargs):
         self.flag_isAlive = False
         self.flag_isRegistered = False
@@ -30,8 +52,8 @@ class AcPo:
     This class defines the access point and all of its glory...
     or at least all we are concerned about in this version of Dino
     """
-    
-    def __init__(self,apname, ethmac):
+
+    def __init__(self, apname, ethmac):
         self.apname = apname
         self.ethmac = ethmac
 
@@ -45,10 +67,12 @@ class AcPo:
         self.dnac_managed = False
         self.dnac_ip4_add = "unset"
         self.location = "default"
+
     def tag_mapping(self):
         self.tag_RF = ""
         self.tag_Site = ""
         self.tag_Policy = ""
+
     def status_flags(self, *args, **kwargs):
         """
         The below flags are various markers to set for
@@ -90,10 +114,11 @@ class AcPo:
         or another validation check...this app will
         error out and dump to a log "why".
         """
-        ## state_data is a dict containing all data stored for
-        ### object as gathered since last poll. This is "PRE" config
-        #### data for check
+        # state_data is a dict containing all data stored for
+        # object as gathered since last poll. This is "PRE" config
+        # data for check
         self.pre_state_data = {}
+
         def __check__(self):
             """
             AP's !! PRE modifaction !! data current state/config data stored
@@ -101,6 +126,7 @@ class AcPo:
             to the POST modification for "desired state" checks
             """
             self.pre_state_data
+
         def __update__(self):
             """
             Force polling of APs controller device for new state info
@@ -109,22 +135,27 @@ class AcPo:
 
 
 class ConnexList(object):
-	def __init__(self, match_list):
-		self.connexList = match_list
-		self.connexArgs = {}
-		self.sendCmds = []
-	def __enter__(self):
-		self.connexList = match_list.copy()
-		self.ConnexArgs = self.setConnArgs(self)
-		return self.connexList, ConnexArgs
-	def setConnArgs(self):
-		import getpass
-		self.connexArgs = {"ip": self.connexList[0]}
-		return self.connexArgs
-	def getConnArgs(self):
-		self.getConnArgs = print(self.connexArgs)
-	def getCmds(self):
-		self.sendCmds = ap_rename20.api_create_commands(connexList)
-		return self.sendCmds
-	def __exit__(self):
-		self.connexList.clear()
+    def __init__(self, match_list):
+        self.connexList = match_list
+        self.connexArgs = {}
+        self.sendCmds = []
+
+    def __enter__(self):
+        self.connexList = match_list.copy()
+        self.ConnexArgs = self.setConnArgs(self)
+        return self.connexList, ConnexArgs
+
+    def setConnArgs(self):
+        import getpass
+        self.connexArgs = {"ip": self.connexList[0]}
+        return self.connexArgs
+
+    def getConnArgs(self):
+        self.getConnArgs = print(self.connexArgs)
+
+    def getCmds(self):
+        self.sendCmds = ap_rename20.api_create_commands(connexList)
+        return self.sendCmds
+
+    def __exit__(self):
+        self.connexList.clear()
